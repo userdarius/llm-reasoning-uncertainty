@@ -1,6 +1,7 @@
 # techniques/speculative_decoding.py
 import torch
 
+
 class SpeculativeDecoding:
     def __init__(self, model_wrapper):
         self.model = model_wrapper.model
@@ -12,5 +13,5 @@ class SpeculativeDecoding:
             for _ in range(speculation_factor):
                 outputs = self.model(**inputs)
                 speculative_outputs.append(outputs.logits)
-                inputs['input_ids'] = torch.argmax(outputs.logits, dim=-1)
+                inputs["input_ids"] = torch.argmax(outputs.logits, dim=-1)
         return speculative_outputs

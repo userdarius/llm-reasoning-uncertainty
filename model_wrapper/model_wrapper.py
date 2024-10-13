@@ -2,6 +2,7 @@
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import torch
 
+
 class ModelWrapper:
     def __init__(self, model_name):
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -14,16 +15,20 @@ class ModelWrapper:
         with torch.no_grad():
             outputs = self.model(**inputs)
         return outputs
-    
+
     def evaluate(self, dataset):
         predictions = []
         labels = []
         for example in dataset:
-            inputs = {key: torch.tensor([val]) for key, val in example.items() if key in self.tokenizer.model_input_names}
+            inputs = {
+                key: torch.tensor([val])
+                for key, val in example.items()
+                if key in self.tokenizer.model_input_names
+            }
             outputs = self.predict(inputs)
             predictions.append(outputs)
-            labels.append(example['label'])
+            labels.append(example["label"])
         return predictions, labels
 
-#load llama 3 7b model 
 
+# load llama 3 7b model

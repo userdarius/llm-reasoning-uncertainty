@@ -2,6 +2,7 @@
 import torch
 from sklearn.metrics import accuracy_score, log_loss
 
+
 class Evaluation:
     def __init__(self):
         pass
@@ -14,6 +15,7 @@ class Evaluation:
         probabilities = torch.softmax(predictions.logits, dim=-1)
         uncertainty = -torch.sum(probabilities * torch.log(probabilities), dim=-1)
         return uncertainty.mean().item()
+
 
 # Example usage:
 # evaluator = Evaluation()
