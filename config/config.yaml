@@ -1,0 +1,6 @@
+# config/config.yaml
+
+dataset_name: "hellaswag"
+tokenizer_name: "bert-base-uncased"
+model_name: "bert-base-uncased"
+max_length: 512
