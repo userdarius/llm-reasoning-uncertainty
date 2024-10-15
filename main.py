@@ -1,4 +1,5 @@
 # main.py
+import torch
 from data_loader.data_loader import DataLoader
 from model_wrapper.model_wrapper import ModelWrapper
 from evaluation.evaluation import Evaluation
@@ -11,11 +12,12 @@ from techniques.speculative_decoding import SpeculativeDecoding
 def main():
     config = load_config("config/config.yaml")
     logger = setup_logging()
-
+    print("hello")
     # Initialize DataLoader and Model
     loader = DataLoader(
         config["dataset_name"], config["tokenizer_name"], config["max_length"]
     )
+    print(loader)
     model = ModelWrapper(config["model_name"])
     evaluator = Evaluation()
 

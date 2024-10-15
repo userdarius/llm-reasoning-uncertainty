@@ -3,3 +3,6 @@ torch
 datasets
 scikit-learn
 pyyaml
+einops
+beartype
+rotary_embedding_torch

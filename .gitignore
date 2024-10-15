@@ -1,0 +1,5 @@
+# Conda environment directories
+.conda/
+
+# cache files
+__pycache__/
