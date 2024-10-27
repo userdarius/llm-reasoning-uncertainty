@@ -1,7 +1,7 @@
 # main.py
 import torch
 from data_loader.data_loader import DataLoader
-from model_wrapper.model_wrapper import ModelWrapper
+from models.model_wrapper import ModelWrapper
 from evaluation.evaluation import Evaluation
 from utils.utils import load_config, setup_logging
 from techniques.multi_token_prediction import MultiTokenPrediction

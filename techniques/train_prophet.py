@@ -70,15 +70,14 @@ def benchmark(fn):
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Load LLaMA model and tokenizer from Hugging Face
+# Load model and tokenizer from hf
 model_name = "meta-llama/Llama-3.1-8B"  # Replace with the exact name if different
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 llama_model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
 
-# Define the main model
 model = llama_model
 
-# Create a smaller prophet model using the same LLaMA architecture
+# TODO : prophet model is identical to the main model in this example -> find smaller model to accelerate inference
 prophet_model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
 
 # Wrap the models for speculative decoding
