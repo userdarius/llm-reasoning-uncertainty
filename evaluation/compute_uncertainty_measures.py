@@ -1,33 +1,37 @@
 """Compute uncertainty measures after generating answers."""
 
-from collections import defaultdict
 import logging
 import os
 import pickle
+from collections import defaultdict
+
 import numpy as np
+import torch
 import wandb
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
-
+from data_loader.data_utils import load_ds
 from analyze_results import analyze_run
-from uncertainty.data.data_utils import load_ds
-from uncertaintyuncertainty_measures.p_ik import get_p_ik
-from semantic_entropy import get_semantic_ids
-from evaluation.semantic_entropy import logsumexp_by_id
-from evaluation.semantic_entropy import predictive_entropy
-from evaluation.semantic_entropy import predictive_entropy_rao
-from evaluation.semantic_entropy import cluster_assignment_entropy
-from evaluation.semantic_entropy import context_entails_response
-from evaluation.semantic_entropy import EntailmentDeberta
-from evaluation.semantic_entropy import EntailmentGPT4
-from evaluation.semantic_entropy import EntailmentGPT35
-from evaluation.semantic_entropy import EntailmentGPT4Turbo
-from evaluation.semantic_entropy import EntailmentLlama
-from evaluation.uncertainty_measures import p_true as p_true_utils
+from evaluation import p_true as p_true_utils
+from evaluation.p_ik import get_p_ik
+from evaluation.semantic_entropy import (
+    EntailmentDeberta,
+    EntailmentGPT4,
+    EntailmentGPT4Turbo,
+    EntailmentGPT35,
+    EntailmentLlama,
+    cluster_assignment_entropy,
+    context_entails_response,
+    get_semantic_ids,
+    logsumexp_by_id,
+    predictive_entropy,
+    predictive_entropy_rao,
+)
+from techniques.speculative_decoding import (
+    ModelWithProphetWrapper,
+    speculative_decoding_with_prophet_model,
+)
 from utils import utils
-
-from techniques.speculative_decoding import speculative_decoding_with_prophet_model
-
-
 
 utils.setup_logger()
 
@@ -36,6 +40,25 @@ EXP_DETAILS = "experiment_details.pkl"
 
 def main(args):
 
+    # Load tokenizer and models
+    model_name = "meta-llama/Llama-3.1-8B"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    primary_model = AutoModelForCausalLM.from_pretrained(model_name).to(
+        "cuda" if torch.cuda.is_available() else "cpu"
+    )
+
+    # Initialize prophet model - for simplicity, using ;
+    prophet_model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-1B").to(
+        "cuda" if torch.cuda.is_available() else "cpu"
+    )
+
+    # Wrap both models with the ModelWithProphetWrapper for speculative decoding
+    model_and_prophet = ModelWithProphetWrapper(
+        model=primary_model,
+        prophet=prophet_model,
+    ).to("cuda" if torch.cuda.is_available() else "cpu")
+
+    # Setup wandb, directories, etc
     if args.train_wandb_runid is None:
         args.train_wandb_runid = args.eval_wandb_runid
 
@@ -44,6 +67,7 @@ def main(args):
     wandb_dir = f"{scratch_dir}/{user}/uncertainty"
     slurm_jobid = os.getenv("SLURM_JOB_ID", None)
     project = "semantic_uncertainty" if not args.debug else "semantic_uncertainty_debug"
+
     if args.assign_new_wandb_id:
         logging.info("Assign new wandb_id.")
         api = wandb.Api()
@@ -204,6 +228,7 @@ def main(args):
     with open(validation_generations_pickle.name, "rb") as infile:
         validation_generations = pickle.load(infile)
 
+    # Setup variables for tracking entropy and embeddings.
     entropies = defaultdict(list)
     validation_embeddings, validation_is_true, validation_answerable = [], [], []
     p_trues = []
@@ -212,60 +237,46 @@ def main(args):
     def is_answerable(generation):
         return len(generation["reference"]["answers"]["text"]) > 0
 
-    # Loop over datapoints and compute validation embeddings and entropies.
+    # Loop over data points and compute validation embeddings and entropies using speculative decoding
     for idx, tid in enumerate(validation_generations):
 
         example = validation_generations[tid]
         question = example["question"]
         context = example["context"]
+        prompt = example["prompt"]
         full_responses = example["responses"]
         most_likely_answer = example["most_likely_answer"]
 
-        if not args.use_all_generations:
-            if args.use_num_generations == -1:
-                raise ValueError
-            responses = [fr[0] for fr in full_responses[: args.use_num_generations]]
-        else:
-            responses = [fr[0] for fr in full_responses]
+        # Use speculative decoding instead of base decoding to generate responses
+        sampled_responses, acceptance_ratio = speculative_decoding_with_prophet_model(
+            net=model_and_prophet,
+            prompt=prompt,
+            seq_len=args.generate_length,
+            gamma=args.speculative_gamma,
+            temperature=args.temperature,
+            filter_thres=args.filter_threshold,
+        )
 
-        if args.recompute_accuracy:
-            logging.info("Recomputing accuracy!")
-            if is_answerable(example):
-                acc = metric(most_likely_answer["response"], example, None)
-            else:
-                acc = 0.0  # pylint: disable=invalid-name
-            validation_is_true.append(acc)
-            logging.info("Recomputed accuracy!")
-
-        else:
-            validation_is_true.append(most_likely_answer["accuracy"])
-
+        # Compute validation embeddings and entropies using speculative decoded responses
+        validation_is_true.append(most_likely_answer["accuracy"])
         validation_answerable.append(is_answerable(example))
         validation_embeddings.append(most_likely_answer["embedding"])
-        logging.info("validation_is_true: %f", validation_is_true[-1])
 
         if args.compute_predictive_entropy:
-            # Token log likelihoods. Shape = (n_sample, n_tokens)
-            if not args.use_all_generations:
-                log_liks = [r[1] for r in full_responses[: args.use_num_generations]]
-            else:
-                log_liks = [r[1] for r in full_responses]
+            # Token log likelihoods from speculative decoding
+            log_liks = [resp.log_probabilities for resp in sampled_responses]
 
-            for i in log_liks:
-                assert i
-
+            # If context entails response is required, calculate it using speculative decoded responses
             if args.compute_context_entails_response:
-                # Compute context entails answer baseline.
                 entropies["context_entails_response"].append(
-                    context_entails_response(context, responses, entailment_model)
+                    context_entails_response(
+                        context, sampled_responses, entailment_model
+                    )
                 )
 
-            if args.condition_on_question and args.entailment_model == "deberta":
-                responses = [f"{question} {r}" for r in responses]
-
-            # Compute semantic ids.
+            # Compute semantic IDs for clustering, if applicable
             semantic_ids = get_semantic_ids(
-                responses,
+                sampled_responses,
                 model=entailment_model,
                 strict_entailment=args.strict_entailment,
                 example=example,
@@ -273,53 +284,38 @@ def main(args):
 
             result_dict["semantic_ids"].append(semantic_ids)
 
-            # Compute entropy from frequencies of cluster assignments.
+            # Cluster assignment entropy for semantic IDs
             entropies["cluster_assignment_entropy"].append(
                 cluster_assignment_entropy(semantic_ids)
             )
 
-            # Length normalization of generation probabilities.
+            # Length normalization and entropy computation
             log_liks_agg = [np.mean(log_lik) for log_lik in log_liks]
-
-            # Compute naive entropy.
             entropies["regular_entropy"].append(predictive_entropy(log_liks_agg))
 
-            # Compute semantic entropy.
+            # Semantic entropy calculation
             log_likelihood_per_semantic_id = logsumexp_by_id(
                 semantic_ids, log_liks_agg, agg="sum_normalized"
             )
             pe = predictive_entropy_rao(log_likelihood_per_semantic_id)
             entropies["semantic_entropy"].append(pe)
 
-            # pylint: disable=invalid-name
-            log_str = "semantic_ids: %s, avg_token_log_likelihoods: %s, entropies: %s"
-            entropies_fmt = ", ".join(
-                [f"{i}:{j[-1]:.2f}" for i, j in entropies.items()]
+            # Logging speculative decoding outputs
+            logging.info("Speculative Decoding Acceptance Ratio: %f", acceptance_ratio)
+            logging.info(
+                "semantic_ids: %s, avg_token_log_likelihoods: %s, entropies: %s",
+                semantic_ids,
+                log_liks_agg,
+                entropies,
             )
-            # pylint: enable=invalid-name
-            logging.info(80 * "#")
-            logging.info("NEW ITEM %d at id=`%s`.", idx, tid)
-            logging.info("Context:")
-            logging.info(example["context"])
-            logging.info("Question:")
-            logging.info(question)
-            logging.info("True Answers:")
-            logging.info(example["reference"])
-            logging.info("Low Temperature Generation:")
-            logging.info(most_likely_answer["response"])
-            logging.info("Low Temperature Generation Accuracy:")
-            logging.info(most_likely_answer["accuracy"])
-            logging.info("High Temp Generation:")
-            logging.info([r[0] for r in full_responses])
-            logging.info("High Temp Generation:")
-            logging.info(log_str, semantic_ids, log_liks_agg, entropies_fmt)
 
+        # Further p_true computation if enabled
         if args.compute_p_true_in_compute_stage:
             p_true = p_true_utils.calculate_p_true(
                 pt_model,
                 question,
                 most_likely_answer["response"],
-                responses,
+                sampled_responses,
                 p_true_few_shot_prompt,
                 hint=old_exp["args"].p_true_hint,
             )
@@ -331,6 +327,7 @@ def main(args):
             logging.info("Breaking out of main loop.")
             break
 
+    # Additional processing, logging, and saving metrics
     logging.info("Accuracy on original task: %f", np.mean(validation_is_true))
     validation_is_false = [1.0 - is_t for is_t in validation_is_true]
     result_dict["validation_is_false"] = validation_is_false
@@ -347,48 +344,7 @@ def main(args):
     if args.compute_predictive_entropy:
         result_dict["uncertainty_measures"].update(entropies)
 
-    if args.compute_p_ik or args.compute_p_ik_answerable:
-        # Assemble training data for embedding classification.
-        train_is_true, train_embeddings, train_answerable = [], [], []
-        for tid in train_generations:
-            most_likely_answer = train_generations[tid]["most_likely_answer"]
-            train_embeddings.append(most_likely_answer["embedding"])
-            train_is_true.append(most_likely_answer["accuracy"])
-            train_answerable.append(is_answerable(train_generations[tid]))
-        train_is_false = [0.0 if is_t else 1.0 for is_t in train_is_true]
-        train_unanswerable = [0.0 if is_t else 1.0 for is_t in train_answerable]
-        logging.info(
-            "Unanswerable prop on p_ik training: %f", np.mean(train_unanswerable)
-        )
-
-    if args.compute_p_ik:
-        logging.info("Starting training p_ik on train embeddings.")
-        # Train classifier of correct/incorrect from embeddings.
-        p_ik_predictions = get_p_ik(
-            train_embeddings=train_embeddings,
-            is_false=train_is_false,
-            eval_embeddings=validation_embeddings,
-            eval_is_false=validation_is_false,
-        )
-        result_dict["uncertainty_measures"]["p_ik"] = p_ik_predictions
-        logging.info("Finished training p_ik on train embeddings.")
-
-    if args.compute_p_ik_answerable:
-        # Train classifier of answerable/unanswerable.
-        p_ik_predictions = get_p_ik(
-            train_embeddings=train_embeddings,
-            is_false=train_unanswerable,
-            eval_embeddings=validation_embeddings,
-            eval_is_false=validation_unanswerable,
-        )
-        result_dict["uncertainty_measures"]["p_ik_unanswerable"] = p_ik_predictions
-
-    if args.compute_p_true_in_compute_stage:
-        result_dict["uncertainty_measures"]["p_false"] = [1 - p for p in p_trues]
-        result_dict["uncertainty_measures"]["p_false_fixed"] = [
-            1 - np.exp(p) for p in p_trues
-        ]
-
+    # Save results and any additional outputs
     utils.save(result_dict, "uncertainty_measures.pkl")
 
     if args.compute_predictive_entropy:
