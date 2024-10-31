@@ -266,6 +266,14 @@ def main(args):
             # Token log likelihoods from speculative decoding
             log_liks = [resp.log_probabilities for resp in sampled_responses]
 
+            # handle cases where sampled_responses or log_liks might be empty due to probabilistic sampling of speculative decoding
+            if log_liks:
+                log_liks_agg = [np.mean(log_lik) for log_lik in log_liks]
+                entropies["regular_entropy"].append(predictive_entropy(log_liks_agg))
+            # Continue with other entropy calculations
+            else:
+                logging.warning("Speculative decoding returned empty log likelihoods.")
+
             # If context entails response is required, calculate it using speculative decoded responses
             if args.compute_context_entails_response:
                 entropies["context_entails_response"].append(
