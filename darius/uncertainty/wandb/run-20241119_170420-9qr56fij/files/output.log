@@ -1,0 +1,49 @@
+2024-11-19 17:04:21 INFO     Finished wandb init.
+2024-11-19 17:04:25 INFO     Train dataset: Dataset({
+    features: ['id', 'question', 'context', 'answers'],
+    num_rows: 12294
+})
+2024-11-19 17:04:25 INFO     Prompt is: Answer the following question as briefly as possible.
+Question: In April, which sportsman married his childhood sweetheart Kim Sears?
+Answer: andy murray
+
+Question: From the Latin for argentum, which element, with an atomic number of 47, uses the symbol Ag?
+Answer: silver
+
+Question: In which English city will you find the Ashmolean museum?
+Answer: oxford
+
+Question: In which city was John Lennon murdered?
+Answer: new york
+
+Question: What was Groucho Marx's real first name?
+Answer: julius
+
+
+tokenizer_config.json: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 50.5k/50.5k [00:00<00:00, 2.57MB/s]
+tokenizer.json: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 9.09M/9.09M [00:01<00:00, 6.27MB/s]
+special_tokens_map.json: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 301/301 [00:00<00:00, 13.7kB/s]
+config.json: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 844/844 [00:00<00:00, 2.20MB/s]
+model.safetensors.index.json: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 20.9k/20.9k [00:00<00:00, 25.6MB/s]
+model-00001-of-00002.safetensors: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4.97G/4.97G [12:02<00:00, 6.87MB/s]
+model-00002-of-00002.safetensors: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1.46G/1.46G [03:34<00:00, 6.82MB/s]
+Downloading shards: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [15:36<00:00, 468.49s/it]
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:12<00:00,  6.16s/it]
+generation_config.json: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 185/185 [00:00<00:00, 701kB/s]
+config.json: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 843/843 [00:00<00:00, 2.41MB/s]
+model.safetensors: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2.47G/2.47G [06:06<00:00, 6.74MB/s]
+generation_config.json: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 185/185 [00:00<00:00, 508kB/s]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 334, in <module>
+    main(args)
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 119, in main
+    model = ModelWithProphetWrapper(
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/techniques/speculative_decoding.py", line 304, in __init__
+    model_prophet_same_dim = model.dim == prophet.dim
+                             ^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1931, in __getattr__
+    raise AttributeError(
+AttributeError: 'LlamaForCausalLM' object has no attribute 'dim'

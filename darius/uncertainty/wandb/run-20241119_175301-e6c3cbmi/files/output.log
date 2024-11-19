@@ -1,0 +1,97 @@
+2024-11-19 17:53:02 INFO     Finished wandb init.
+2024-11-19 17:53:05 INFO     Train dataset: Dataset({
+    features: ['id', 'question', 'context', 'answers'],
+    num_rows: 12294
+})
+2024-11-19 17:53:06 INFO     Prompt is: Answer the following question as briefly as possible.
+Question: In April, which sportsman married his childhood sweetheart Kim Sears?
+Answer: andy murray
+
+Question: From the Latin for argentum, which element, with an atomic number of 47, uses the symbol Ag?
+Answer: silver
+
+Question: In which English city will you find the Ashmolean museum?
+Answer: oxford
+
+Question: In which city was John Lennon murdered?
+Answer: new york
+
+Question: What was Groucho Marx's real first name?
+Answer: julius
+
+
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:15<00:00,  7.89s/it]
+2024-11-19 17:53:31 INFO     ################################################################################
+2024-11-19 17:53:31 INFO     Constructing few-shot prompt for p_true.
+2024-11-19 17:53:31 INFO     P_TRUE >> Current Question: Question: "Who said ""we're more popular than Jesus now"", in 1966?"
+Answer:
+/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/generation/configuration_utils.py:657: UserWarning: `num_beams` is set to 1. However, `length_penalty` is set to `0.8` -- this flag is only used in beam-based generation modes. You should set `num_beams>1` or unset `length_penalty`.
+  warnings.warn(
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 332, in <module>
+    main(args)
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 133, in main
+    p_true_utils.construct_few_shot_prompt(
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/p_true.py", line 34, in construct_few_shot_prompt
+    response, _, _ = model.predict(local_prompt, temperature)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/techniques/speculative_decoding.py", line 352, in predict
+    outputs = self.model.generate(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/generation/utils.py", line 2215, in generate
+    result = self._sample(
+             ^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/generation/utils.py", line 3206, in _sample
+    outputs = self(**model_inputs, return_dict=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 1190, in forward
+    outputs = self.model(
+              ^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 945, in forward
+    layer_outputs = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 676, in forward
+    hidden_states, self_attn_weights, present_key_value = self.self_attn(
+                                                          ^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 561, in forward
+    value_states = self.v_proj(hidden_states)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/linear.py", line 125, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

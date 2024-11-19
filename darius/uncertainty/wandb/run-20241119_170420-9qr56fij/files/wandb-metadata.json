@@ -1,0 +1,37 @@
+{
+  "os":  "macOS-15.1-arm64-arm-64bit",
+  "python":  "3.11.10",
+  "startedAt":  "2024-11-19T16:04:20.605346Z",
+  "program":  "-m evaluation.generate_answers",
+  "git":  {
+    "remote":  "git@github.com:userdarius/llm-reasoning-uncertainty.git",
+    "commit":  "1c07fdb5e2e7378aee8f36c454fba6fe0b9f6c76"
+  },
+  "email":  "darius.foodei@gmail.com",
+  "root":  "./darius/uncertainty",
+  "host":  "tsf-444-wpa-5-249.epfl.ch",
+  "username":  "darius",
+  "executable":  "/Users/darius/miniconda3/envs/semantic_uncertainty/bin/python3",
+  "cpu_count":  8,
+  "cpu_count_logical":  8,
+  "disk":  {
+    "/":  {
+      "total":  "494384795648",
+      "used":  "398580908032"
+    }
+  },
+  "memory":  {
+    "total":  "17179869184"
+  },
+  "cpu":  {
+    "count":  8,
+    "countLogical":  8
+  },
+  "apple":  {
+    "name":  "Apple M1 Pro",
+    "ecpuCores":  2,
+    "pcpuCores":  6,
+    "gpuCores":  14,
+    "memoryGb":  16
+  }
+}

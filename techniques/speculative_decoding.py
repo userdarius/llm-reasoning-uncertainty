@@ -291,9 +291,10 @@ class Decoder(Module):
 class ModelWithProphetWrapper(Module):
     def __init__(
         self,
-        model: Decoder,
-        prophet: Decoder,
-        prophet_train_length=8,  # should be greater than spec decoding gamma, as main model cache embedding is one step behind
+        model: Module,
+        prophet: Module,
+        tokenizer=None,  # Add tokenizer parameter
+        prophet_train_length=8,
         detach_model_embed_for_prophet=False,
         num_leading_start_tokens=1,
     ):
@@ -301,11 +302,38 @@ class ModelWithProphetWrapper(Module):
         self.model = model
         self.prophet = prophet
 
-        model_prophet_same_dim = model.dim == prophet.dim
+        # Handle tokenizer
+        if tokenizer is not None:
+            self.tokenizer = tokenizer
+        elif hasattr(model, "tokenizer"):
+            self.tokenizer = model.tokenizer
+        else:
+            raise ValueError(
+                "Either pass a tokenizer or ensure model has a tokenizer attribute"
+            )
+
+        # Set device
+        self.device = next(model.parameters()).device
+
+        # Set max_new_tokens if not present
+        self.max_new_tokens = getattr(model, "max_new_tokens", 100)  # default to 100
+
+        # Get dimensions from config for HuggingFace models
+        model_dim = getattr(model.config, "hidden_size", getattr(model, "dim", None))
+        prophet_dim = getattr(
+            prophet.config, "hidden_size", getattr(prophet, "dim", None)
+        )
+
+        if model_dim is None or prophet_dim is None:
+            raise ValueError(
+                "Could not determine model dimensions. Models must have either 'hidden_size' in config or 'dim' attribute."
+            )
+
+        model_prophet_same_dim = model_dim == prophet_dim
         self.to_prophet_start_token = (
             nn.Identity()
             if model_prophet_same_dim
-            else nn.Linear(model.dim, prophet.dim, bias=False)
+            else nn.Linear(model_dim, prophet_dim, bias=False)
         )
 
         assert num_leading_start_tokens >= 1
@@ -313,6 +341,34 @@ class ModelWithProphetWrapper(Module):
 
         self.prophet_train_length = prophet_train_length
         self.detach_model_embed_for_prophet = detach_model_embed_for_prophet
+
+    def predict(self, prompt, temperature=1.0):
+        """
+        Wrapper for model prediction to maintain compatibility with evaluation code.
+        """
+        inputs = self.tokenizer(prompt, return_tensors="pt").to(self.device)
+
+        with torch.no_grad():
+            outputs = self.model.generate(
+                **inputs,
+                max_new_tokens=self.max_new_tokens,
+                temperature=temperature,
+                do_sample=True,
+                return_dict_in_generate=True,
+                output_scores=True,
+            )
+
+        generated_text = self.tokenizer.decode(
+            outputs.sequences[0], skip_special_tokens=True
+        )[len(prompt) :]
+
+        logprobs = None
+        if hasattr(outputs, "scores"):
+            logprobs = torch.stack(outputs.scores).softmax(dim=-1)
+
+        embeddings = None
+
+        return generated_text, logprobs, embeddings
 
     def forward(self, x):
         num_start_tokens = self.num_leading_start_tokens

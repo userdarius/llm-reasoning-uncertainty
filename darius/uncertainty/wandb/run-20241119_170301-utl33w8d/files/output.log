@@ -1,0 +1,108 @@
+2024-11-19 17:03:01 INFO     Finished wandb init.
+Downloading builder script: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 6.47k/6.47k [00:00<00:00, 2.00MB/s]
+Downloading extra modules: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 11.3k/11.3k [00:00<00:00, 4.66MB/s]
+Downloading readme: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 720/720 [00:00<00:00, 1.04MB/s]
+Downloading data: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13.2M/13.2M [00:03<00:00, 4.29MB/s]
+Downloading data: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 14.4M/14.4M [00:03<00:00, 4.15MB/s]
+Downloading data: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 13.1M/13.1M [00:02<00:00, 4.48MB/s]
+Generating modified_100_percent split: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 15368/15368 [00:00<00:00, 247935.66 examples/s]
+Generating modified_30_percent split: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 15368/15368 [00:00<00:00, 501451.37 examples/s]
+Generating unmodified split: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 15368/15368 [00:00<00:00, 537231.12 examples/s]
+2024-11-19 17:03:18 INFO     Train dataset: Dataset({
+    features: ['id', 'question', 'context', 'answers'],
+    num_rows: 12294
+})
+2024-11-19 17:03:19 INFO     Prompt is: Answer the following question as briefly as possible.
+Question: In April, which sportsman married his childhood sweetheart Kim Sears?
+Answer: andy murray
+
+Question: From the Latin for argentum, which element, with an atomic number of 47, uses the symbol Ag?
+Answer: silver
+
+Question: In which English city will you find the Ashmolean museum?
+Answer: oxford
+
+Question: In which city was John Lennon murdered?
+Answer: new york
+
+Question: What was Groucho Marx's real first name?
+Answer: julius
+
+
+Traceback (most recent call last):
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/huggingface_hub/utils/_errors.py", line 304, in hf_raise_for_status
+    response.raise_for_status()
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://huggingface.co/meta-llama/Llama-3.2-3B/resolve/main/config.json
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/utils/hub.py", line 403, in cached_file
+    resolved_file = hf_hub_download(
+                    ^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/huggingface_hub/utils/_deprecation.py", line 101, in inner_f
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1240, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1347, in _hf_hub_download_to_cache_dir
+    _raise_on_head_call_error(head_call_error, force_download, local_files_only)
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1854, in _raise_on_head_call_error
+    raise head_call_error
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1751, in _get_metadata_or_catch_error
+    metadata = get_hf_file_metadata(
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1673, in get_hf_file_metadata
+    r = _request_wrapper(
+        ^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 376, in _request_wrapper
+    response = _request_wrapper(
+               ^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 400, in _request_wrapper
+    hf_raise_for_status(response)
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/huggingface_hub/utils/_errors.py", line 321, in hf_raise_for_status
+    raise GatedRepoError(message, response) from e
+huggingface_hub.utils._errors.GatedRepoError: 401 Client Error. (Request ID: Root=1-673cb6c7-62b61afd1c6a95b609d2d72f;ff87d27e-e319-4fd2-a9af-f93f341b5595)
+
+Cannot access gated repo for url https://huggingface.co/meta-llama/Llama-3.2-3B/resolve/main/config.json.
+Access to model meta-llama/Llama-3.2-3B is restricted. You must have access to it and be authenticated to access it. Please log in.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 334, in <module>
+    main(args)
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 108, in main
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/models/auto/tokenization_auto.py", line 877, in from_pretrained
+    config = AutoConfig.from_pretrained(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/models/auto/configuration_auto.py", line 1017, in from_pretrained
+    config_dict, unused_kwargs = PretrainedConfig.get_config_dict(pretrained_model_name_or_path, **kwargs)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/configuration_utils.py", line 574, in get_config_dict
+    config_dict, kwargs = cls._get_config_dict(pretrained_model_name_or_path, **kwargs)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/configuration_utils.py", line 633, in _get_config_dict
+    resolved_config_file = cached_file(
+                           ^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/utils/hub.py", line 421, in cached_file
+    raise EnvironmentError(
+OSError: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/meta-llama/Llama-3.2-3B.
+401 Client Error. (Request ID: Root=1-673cb6c7-62b61afd1c6a95b609d2d72f;ff87d27e-e319-4fd2-a9af-f93f341b5595)
+
+Cannot access gated repo for url https://huggingface.co/meta-llama/Llama-3.2-3B/resolve/main/config.json.
+Access to model meta-llama/Llama-3.2-3B is restricted. You must have access to it and be authenticated to access it. Please log in.

@@ -1,0 +1,27 @@
+2024-11-19 17:28:58,387 INFO    MainThread:96198 [wandb_setup.py:_flush():79] Current SDK version is 0.18.7
+2024-11-19 17:28:58,388 INFO    MainThread:96198 [wandb_setup.py:_flush():79] Configure stats pid to 96198
+2024-11-19 17:28:58,388 INFO    MainThread:96198 [wandb_setup.py:_flush():79] Loading settings from /Users/darius/.config/wandb/settings
+2024-11-19 17:28:58,388 INFO    MainThread:96198 [wandb_setup.py:_flush():79] Loading settings from /Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/wandb/settings
+2024-11-19 17:28:58,388 INFO    MainThread:96198 [wandb_setup.py:_flush():79] Loading settings from environment variables: {}
+2024-11-19 17:28:58,388 INFO    MainThread:96198 [wandb_setup.py:_flush():79] Applying setup settings: {'mode': None, '_disable_service': None}
+2024-11-19 17:28:58,388 WARNING MainThread:96198 [wandb_setup.py:_flush():79] Could not find program at -m evaluation.generate_answers
+2024-11-19 17:28:58,388 INFO    MainThread:96198 [wandb_setup.py:_flush():79] Inferring run settings from compute environment: {'program_relpath': None, 'program': '-m evaluation.generate_answers'}
+2024-11-19 17:28:58,388 INFO    MainThread:96198 [wandb_setup.py:_flush():79] Applying login settings: {}
+2024-11-19 17:28:58,388 INFO    MainThread:96198 [wandb_init.py:_log_setup():533] Logging user logs to ./darius/uncertainty/wandb/run-20241119_172858-6yyru0il/logs/debug.log
+2024-11-19 17:28:58,388 INFO    MainThread:96198 [wandb_init.py:_log_setup():534] Logging internal logs to ./darius/uncertainty/wandb/run-20241119_172858-6yyru0il/logs/debug-internal.log
+2024-11-19 17:28:58,388 INFO    MainThread:96198 [wandb_init.py:init():619] calling init triggers
+2024-11-19 17:28:58,388 INFO    MainThread:96198 [wandb_init.py:init():626] wandb.init called with sweep_config: {}
+config: {'debug': False, 'entity': None, 'random_seed': 10, 'metric': 'squad', 'compute_accuracy_at_all_temps': True, 'experiment_lot': 'Unnamed Experiment', 'model_name': 'Llama-2-7b-chat', 'model_max_new_tokens': 50, 'dataset': 'trivia_qa', 'ood_train_dataset': None, 'num_samples': 400, 'num_few_shot': 5, 'p_true_num_fewshot': 20, 'p_true_hint': False, 'num_generations': 10, 'temperature': 1.0, 'use_mc_options': True, 'get_training_set_generations': True, 'use_context': False, 'get_training_set_generations_most_likely_only': True, 'compute_p_true': True, 'brief_always': False, 'enable_brief': True, 'brief_prompt': 'default', 'prompt_type': 'default', 'compute_uncertainties': True, 'answerable_only': False, 'speculative_gamma': 5, 'filter_threshold': 0.9, 'generate_length': 512, 'recompute_accuracy': False, 'eval_wandb_runid': None, 'train_wandb_runid': None, 'num_eval_samples': 10000000000000000000, 'compute_predictive_entropy': True, 'compute_p_ik': True, 'compute_p_ik_answerable': False, 'compute_context_entails_response': False, 'analyze_run': True, 'assign_new_wandb_id': False, 'restore_entity_eval': None, 'restore_entity_train': None, 'condition_on_question': True, 'strict_entailment': True, 'use_all_generations': True, 'use_num_generations': -1, 'entailment_model': 'deberta', 'entailment_cache_id': None, 'entailment_cache_only': False, 'compute_p_true_in_compute_stage': False, 'reuse_entailment_model': False}
+2024-11-19 17:28:58,388 INFO    MainThread:96198 [wandb_init.py:init():669] starting backend
+2024-11-19 17:28:58,388 INFO    MainThread:96198 [wandb_init.py:init():673] sending inform_init request
+2024-11-19 17:28:58,389 INFO    MainThread:96198 [backend.py:_multiprocessing_setup():104] multiprocessing start_methods=spawn,fork,forkserver, using: spawn
+2024-11-19 17:28:58,389 INFO    MainThread:96198 [wandb_init.py:init():686] backend started and connected
+2024-11-19 17:28:58,395 INFO    MainThread:96198 [wandb_init.py:init():781] updated telemetry
+2024-11-19 17:28:58,421 INFO    MainThread:96198 [wandb_init.py:init():814] communicating run to backend with 90.0 second timeout
+2024-11-19 17:28:58,808 INFO    MainThread:96198 [wandb_init.py:init():867] starting run threads in backend
+2024-11-19 17:28:58,914 INFO    MainThread:96198 [wandb_run.py:_console_start():2456] atexit reg
+2024-11-19 17:28:58,914 INFO    MainThread:96198 [wandb_run.py:_redirect():2305] redirect: wrap_raw
+2024-11-19 17:28:58,914 INFO    MainThread:96198 [wandb_run.py:_redirect():2370] Wrapping output streams.
+2024-11-19 17:28:58,914 INFO    MainThread:96198 [wandb_run.py:_redirect():2395] Redirects installed.
+2024-11-19 17:28:58,916 INFO    MainThread:96198 [wandb_init.py:init():911] run started, returning control to user process
+2024-11-19 17:29:24,430 WARNING MsgRouterThr:96198 [router.py:message_loop():75] message_loop has been closed

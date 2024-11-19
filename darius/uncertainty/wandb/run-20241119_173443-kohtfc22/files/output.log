@@ -1,0 +1,40 @@
+2024-11-19 17:34:44 INFO     Finished wandb init.
+2024-11-19 17:34:47 INFO     Train dataset: Dataset({
+    features: ['id', 'question', 'context', 'answers'],
+    num_rows: 12294
+})
+2024-11-19 17:34:48 INFO     Prompt is: Answer the following question as briefly as possible.
+Question: In April, which sportsman married his childhood sweetheart Kim Sears?
+Answer: andy murray
+
+Question: From the Latin for argentum, which element, with an atomic number of 47, uses the symbol Ag?
+Answer: silver
+
+Question: In which English city will you find the Ashmolean museum?
+Answer: oxford
+
+Question: In which city was John Lennon murdered?
+Answer: new york
+
+Question: What was Groucho Marx's real first name?
+Answer: julius
+
+
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:12<00:00,  6.23s/it]
+2024-11-19 17:35:09 INFO     ################################################################################
+2024-11-19 17:35:09 INFO     Constructing few-shot prompt for p_true.
+2024-11-19 17:35:09 INFO     P_TRUE >> Current Question: Question: "Who said ""we're more popular than Jesus now"", in 1966?"
+Answer:
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 334, in <module>
+    main(args)
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 135, in main
+    p_true_utils.construct_few_shot_prompt(
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/p_true.py", line 34, in construct_few_shot_prompt
+    response, _, _ = model.predict(local_prompt, temperature)
+                     ^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1931, in __getattr__
+    raise AttributeError(
+AttributeError: 'ModelWithProphetWrapper' object has no attribute 'predict'

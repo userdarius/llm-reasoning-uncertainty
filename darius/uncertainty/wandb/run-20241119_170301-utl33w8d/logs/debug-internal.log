@@ -1,0 +1,18 @@
+{"time":"2024-11-19T17:03:01.085018+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2024-11-19T17:03:01.08508+01:00","level":"INFO","msg":"created symlink","path":"darius/uncertainty/wandb/run-20241119_170301-utl33w8d/logs/debug-core.log"}
+{"time":"2024-11-19T17:03:01.205529+01:00","level":"INFO","msg":"created new stream","id":"utl33w8d"}
+{"time":"2024-11-19T17:03:01.205731+01:00","level":"INFO","msg":"stream: started","id":"utl33w8d"}
+{"time":"2024-11-19T17:03:01.205811+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"utl33w8d"}
+{"time":"2024-11-19T17:03:01.205824+01:00","level":"INFO","msg":"handler: started","stream_id":"utl33w8d"}
+{"time":"2024-11-19T17:03:01.205833+01:00","level":"INFO","msg":"sender: started","stream_id":"utl33w8d"}
+{"time":"2024-11-19T17:03:01.713834+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-11-19T17:03:19.812038+01:00","level":"INFO","msg":"stream: closing","id":"utl33w8d"}
+{"time":"2024-11-19T17:03:19.812279+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-11-19T17:03:19.81326+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-11-19T17:03:20.019033+01:00","level":"WARN","msg":"No program path found, not creating job artifact. See https://docs.wandb.ai/guides/launch/create-job"}
+{"time":"2024-11-19T17:03:20.019069+01:00","level":"INFO","msg":"sender: sendDefer: no job artifact to save"}
+{"time":"2024-11-19T17:03:21.386409+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-11-19T17:03:21.766496+01:00","level":"INFO","msg":"handler: closed","stream_id":"utl33w8d"}
+{"time":"2024-11-19T17:03:21.766516+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":"utl33w8d"}
+{"time":"2024-11-19T17:03:21.766582+01:00","level":"INFO","msg":"sender: closed","stream_id":"utl33w8d"}
+{"time":"2024-11-19T17:03:21.767876+01:00","level":"INFO","msg":"stream: closed","id":"utl33w8d"}

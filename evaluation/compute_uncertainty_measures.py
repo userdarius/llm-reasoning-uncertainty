@@ -41,14 +41,14 @@ EXP_DETAILS = "experiment_details.pkl"
 def main(args):
 
     # Load tokenizer and models
-    model_name = "meta-llama/Llama-3.1-8B"
+    model_name = "meta-llama/Llama-3.2-3B"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     primary_model = AutoModelForCausalLM.from_pretrained(model_name).to(
         "cuda" if torch.cuda.is_available() else "cpu"
     )
 
-    # Initialize prophet model - for simplicity, using ;
-    prophet_model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-1B").to(
+    # Initialize prophet model - for simplicity, using Llama-3.2-1B
+    prophet_model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-1B").to(
         "cuda" if torch.cuda.is_available() else "cpu"
     )
 
@@ -56,6 +56,7 @@ def main(args):
     model_and_prophet = ModelWithProphetWrapper(
         model=primary_model,
         prophet=prophet_model,
+        tokenizer=tokenizer,
     ).to("cuda" if torch.cuda.is_available() else "cpu")
 
     # Setup wandb, directories, etc

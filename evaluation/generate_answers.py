@@ -10,6 +10,8 @@ import numpy as np
 import torch
 import wandb
 
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
 from techniques.speculative_decoding import (
     ModelWithProphetWrapper,
     speculative_decoding_with_prophet_model,
@@ -102,20 +104,22 @@ def main(args):
 
     # Initialize model.
     # Initialize models for speculative decoding
-    model_name = "meta-llama/Llama-3.1-8B"
-    primary_model = utils.init_model(args)
-    prophet_model = utils.init_model(
-        args
-    )  # You might want to use a smaller model for the prophet
+    model_name = "meta-llama/Llama-3.2-3B"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    primary_model = AutoModelForCausalLM.from_pretrained(model_name).to(
+        "cuda" if torch.cuda.is_available() else "cpu"
+    )
+
+    # Initialize prophet model
+    prophet_model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-1B").to(
+        "cuda" if torch.cuda.is_available() else "cpu"
+    )
 
     # Wrap models for speculative decoding
     model = ModelWithProphetWrapper(
         model=primary_model,
         prophet=prophet_model,
-        prophet_train_length=args.num_generations
-        + 2,  # Should be greater than spec decoding gamma
-        detach_model_embed_for_prophet=False,
-        num_leading_start_tokens=2,
+        tokenizer=tokenizer,
     ).to(primary_model.device)
 
     # Initialize prompt for p_true baseline.

@@ -1,0 +1,37 @@
+2024-11-19 17:31:03 INFO     Finished wandb init.
+2024-11-19 17:31:07 INFO     Train dataset: Dataset({
+    features: ['id', 'question', 'context', 'answers'],
+    num_rows: 12294
+})
+2024-11-19 17:31:08 INFO     Prompt is: Answer the following question as briefly as possible.
+Question: In April, which sportsman married his childhood sweetheart Kim Sears?
+Answer: andy murray
+
+Question: From the Latin for argentum, which element, with an atomic number of 47, uses the symbol Ag?
+Answer: silver
+
+Question: In which English city will you find the Ashmolean museum?
+Answer: oxford
+
+Question: In which city was John Lennon murdered?
+Answer: new york
+
+Question: What was Groucho Marx's real first name?
+Answer: julius
+
+
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:11<00:00,  5.83s/it]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 334, in <module>
+    main(args)
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 119, in main
+    model = ModelWithProphetWrapper(
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/techniques/speculative_decoding.py", line 306, in __init__
+    prophet_dim = prophet.dim
+                  ^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1931, in __getattr__
+    raise AttributeError(
+AttributeError: 'LlamaForCausalLM' object has no attribute 'dim'
