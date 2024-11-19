@@ -113,6 +113,12 @@ def get_parser(stages=['generate', 'compute']):
             "--answerable_only", default=False,
             action=argparse.BooleanOptionalAction,
             help='Exclude unanswerable questions.')
+        parser.add_argument("--speculative_gamma", type=int, default=5,
+                           help="Number of tokens for prophet to predict in speculative decoding")
+        parser.add_argument("--filter_threshold", type=float, default=0.9,
+                           help="Threshold for filtering tokens in speculative decoding")
+        parser.add_argument("--generate_length", type=int, default=512,
+                           help="Maximum length of generated sequence")
 
     if 'compute' in stages:
         parser.add_argument('--recompute_accuracy',

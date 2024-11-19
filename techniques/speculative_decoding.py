@@ -391,6 +391,8 @@ def speculative_decoding_with_prophet_model(
 ):
     """
     eq. algorithm 1 in paper https://arxiv.org/abs/2211.17192
+    Returns:
+        tuple: (generated_tokens, acceptance_ratio, token_log_likelihoods, embeddings)
     """
 
     # extract model, prophet, and model to prophet (if their model dimensions differ)
@@ -403,10 +405,12 @@ def speculative_decoding_with_prophet_model(
     batch, prompt_seq_len, out, device = *prompt.shape, prompt.clone(), prompt.device
 
     if (seq_len - prompt_seq_len) <= 0:
-        return prompt, None
+        return prompt, None, None, None
 
     cache = None
     small_cache = None
+    token_log_likelihoods = []
+    all_embeddings = []
 
     num_steps = 0
     total_accepted = 0
@@ -414,17 +418,25 @@ def speculative_decoding_with_prophet_model(
     batch_range = torch.arange(batch, device=device, dtype=torch.long)[..., None]
     seq_lens = torch.full((batch,), prompt_seq_len, device=device, dtype=torch.long)
 
-    # sample the first token from the main model
-
+    # Sample first token and collect initial embeddings
     for _ in range(max(1, num_start_tokens - prompt_seq_len)):
         logits, cache = model(out, cache=cache, return_cache=True)
         logits = logits[:, -1:]
         logits = top_k(logits, thres=filter_thres)
+
+        # Store log probabilities
+        log_probs = F.log_softmax(logits / temperature, dim=-1)
         sample = gumbel_sample(logits, temperature=temperature, dim=-1)
+        token_log_likelihoods.append(
+            log_probs.gather(-1, sample[..., None]).squeeze(-1)
+        )
+
         out = torch.cat((out, sample), dim=-1)
         seq_lens += 1
 
-    # now we have the first cached embedding to use as the prophet network start token for the speculative sampling
+        # Store embeddings
+        _, embeds = cache
+        all_embeddings.append(embeds[:, -1:])
 
     _, embeds = cache
     next_prophet_start_tokens = to_prophet_start_token(embeds[:, -num_start_tokens:])
@@ -439,6 +451,7 @@ def speculative_decoding_with_prophet_model(
         small_cache = None
         num_tokens = 2  # the main model embeddings is 1 step behind the main sequence
 
+        # Prophet predictions
         for _ in range(gamma):
             small_logits, small_cache = prophet(
                 out[..., -num_tokens:],
@@ -448,7 +461,6 @@ def speculative_decoding_with_prophet_model(
             )
 
             small_logits = small_logits[:, -1:]
-
             small_logits = top_k(small_logits, thres=filter_thres)
             all_small_logits.append(small_logits)
 
@@ -463,16 +475,23 @@ def speculative_decoding_with_prophet_model(
         q_sampled_out = torch.cat(q_sampled_out, dim=-2)
         small_logits = torch.cat(all_small_logits, dim=-2)
 
-        # verify with larger network
-
+        # Verify with larger network
         logits, cache = model(
             out, cache=cache, return_cache=True, seq_start_pos=out.shape[-1] - seq_lens
         )
 
+        # Store embeddings from verification
+        _, current_embeds = cache
+        all_embeddings.append(current_embeds[:, -gamma:])
+
         logits = logits[..., -(gamma + 1) :, :]
         logits = top_k(logits, thres=filter_thres)
 
-        # prob and prob of small model (p(x) and q(x) in algorithm 1)
+        # Calculate and store log probabilities
+        log_probs = F.log_softmax(logits / temperature, dim=-1)
+        token_log_likelihoods.extend(
+            log_probs[:, :-1].gather(-1, q_sampled_out).squeeze(-1).unbind(1)
+        )
 
         prob = safe_div(logits, temperature).softmax(dim=-1)
         small_prob = safe_div(small_logits, temperature).softmax(dim=-1)
@@ -544,8 +563,11 @@ def speculative_decoding_with_prophet_model(
             embeds[:, -num_start_tokens:]
         )
 
-    # now left align
+    # Concatenate all embeddings and log likelihoods
+    final_embeddings = torch.cat(all_embeddings, dim=1)
+    token_log_likelihoods = torch.cat(token_log_likelihoods, dim=1)
 
+    # now left align
     num_pad_left = out.shape[-1] - seq_lens
     max_pad_left = num_pad_left.amax()
     out = F.pad(out, (0, max_pad_left), value=pad_id)
@@ -553,4 +575,9 @@ def speculative_decoding_with_prophet_model(
     seq_len_range = torch.arange(seq_len, device=device, dtype=torch.long)
     out = out[batch_range, seq_len_range + num_pad_left[..., None]]
 
-    return out[..., prompt_seq_len:], total_accepted / num_steps
+    return (
+        out[..., prompt_seq_len:],
+        total_accepted / num_steps,
+        token_log_likelihoods,
+        final_embeddings,
+    )

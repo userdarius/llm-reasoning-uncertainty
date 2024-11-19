@@ -6,7 +6,7 @@ import hashlib
 import datasets
 
 
-def load_ds(dataset_name, seed, add_options=None):
+def load_ds(dataset_name, seed=42, add_options=None):
     """Load dataset."""
     user = os.environ["USER"]
 
