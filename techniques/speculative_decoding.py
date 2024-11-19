@@ -13,12 +13,10 @@ from collections import namedtuple
 from einops import rearrange
 
 # constants
-
 Cache = namedtuple("Cache", ["cached_kvs", "embeds"])
 
+
 # helper functions
-
-
 def exists(val):
     return val is not None
 
@@ -28,8 +26,6 @@ def default(val, d):
 
 
 # sampling helpers
-
-
 def log(t, eps=1e-20):
     return torch.log(t.clamp(min=eps))
 
@@ -52,8 +48,6 @@ def top_k(logits, thres=0.9):
 
 
 # rotary embeddings
-
-
 def rotate_half(x):
     x1, x2 = x.chunk(2, dim=-1)
     return torch.cat((-x2, x1), dim=-1)
@@ -66,8 +60,6 @@ def apply_rotary_pos_emb(pos, t):
 
 
 # different decoding strategies
-
-
 @torch.no_grad()
 def base_decoding(
     net: Module,
@@ -94,8 +86,6 @@ def base_decoding(
 
 
 # norm
-
-
 class RMSNorm(Module):
     def __init__(self, dim):
         super().__init__()
@@ -107,8 +97,6 @@ class RMSNorm(Module):
 
 
 # attention and feedforward
-
-
 class CausalAttention(Module):
     def __init__(
         self,
@@ -176,8 +164,6 @@ def FeedForward(dim, mult=4):
 
 
 # main class
-
-
 class Decoder(Module):
     def __init__(
         self,

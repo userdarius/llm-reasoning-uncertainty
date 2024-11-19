@@ -3,3 +3,6 @@
 
 # cache files
 __pycache__/
+
+# vscode
+.vscode/

@@ -8,6 +8,13 @@ from functools import wraps, partial
 from transformers import AutoModelForCausalLM, AutoTokenizer, AdamW
 from datasets import load_dataset
 
+from speculative_decoding import (
+    Decoder,
+    ModelWithProphetWrapper,
+    base_decoding,
+    speculative_decoding_with_prophet_model,
+)
+
 
 import torch
 from torch.optim import Adam
@@ -17,12 +24,6 @@ from torch.utils.data import DataLoader, Dataset
 
 timer = partial(Event, enable_timing=True)
 
-from techniques.speculative_decoding import (
-    Decoder,
-    ModelWithProphetWrapper,
-    base_decoding,
-    speculative_decoding_with_prophet_model,
-)
 
 # constants
 
@@ -71,7 +72,7 @@ def benchmark(fn):
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load model and tokenizer from hf
-model_name = "meta-llama/Llama-3.1-8B"  # Replace with the exact name if different
+model_name = "meta-llama/Llama-3.1-8B"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 llama_model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
 
@@ -90,7 +91,7 @@ model_and_prophet = ModelWithProphetWrapper(
 ).to(device)
 
 # Load a dataset from Hugging Face datasets library
-dataset_name = "huggingface/your_dataset"  # Replace with your desired dataset name
+dataset_name = "huggingface/dataset"
 dataset = load_dataset(dataset_name, split="train")
 
 
@@ -104,7 +105,7 @@ class HuggingFaceDataset(Dataset):
     def __getitem__(self, index):
         text = self.dataset[index][
             "text"
-        ]  # Adjust this field if your dataset has a different text field
+        ]  # we assume that the dataset has a "text" column
         encoding = tokenizer(
             text,
             return_tensors="pt",
@@ -124,13 +125,11 @@ train_dataset = HuggingFaceDataset(dataset, tokenizer, SEQ_LEN)
 train_loader = cycle(DataLoader(train_dataset, batch_size=BATCH_SIZE))
 
 # optimizer
-
 params = model_and_prophet.parameters() if TRAIN_PROPHET else model.parameters()
 
 optim = AdamW(params, lr=LEARNING_RATE)
 
 # training
-
 for i in tqdm.tqdm(range(NUM_BATCHES), mininterval=10.0, desc="training"):
     model_and_prophet.train()
 
