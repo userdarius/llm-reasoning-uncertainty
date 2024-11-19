@@ -11,7 +11,6 @@ import wandb
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from data_loader.data_utils import load_ds
-from analyze_results import analyze_run
 from evaluation import p_true as p_true_utils
 from evaluation.p_ik import get_p_ik
 from evaluation.semantic_entropy import (
@@ -32,6 +31,7 @@ from techniques.speculative_decoding import (
     speculative_decoding_with_prophet_model,
 )
 from utils import utils
+from .analyze_results import analyze_run
 
 utils.setup_logger()
 
@@ -65,9 +65,12 @@ def main(args):
     user = os.environ["USER"]
     scratch_dir = os.getenv("SCRATCH_DIR", ".")
     wandb_dir = f"{scratch_dir}/{user}/uncertainty"
-    slurm_jobid = os.getenv("SLURM_JOB_ID", None)
+    slurm_jobid = os.getenv(
+        "SLURM_JOB_ID", None
+    )  # might need to get this from rcp cluster
     project = "semantic_uncertainty" if not args.debug else "semantic_uncertainty_debug"
 
+    # Initialize wandb run: if new id, get old run and copy configs, else reuse active wandb id
     if args.assign_new_wandb_id:
         logging.info("Assign new wandb_id.")
         api = wandb.Api()
@@ -105,6 +108,7 @@ def main(args):
 
             return Restored
 
+    # Handles loading of datasets based on whether there is a distribution shift
     if args.train_wandb_runid != args.eval_wandb_runid:
         logging.info(
             "Distribution shift for p_ik. Training on embeddings from run %s but evaluating on run %s",
@@ -163,6 +167,7 @@ def main(args):
         logging.info("Entailment model loading complete.")
 
     if args.compute_p_true_in_compute_stage:
+        entailment_model = None
         # This is usually not called.
         old_exp = restore(EXP_DETAILS)
         with open(old_exp.name, "rb") as infile:
