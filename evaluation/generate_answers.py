@@ -242,10 +242,10 @@ def main(args):
                 if i == 0:
                     logging.info("Iteration " + str(it) + ":  " + 80 * "#")
                     if args.use_context:
-                        logging.info("context: ".ljust(15) + str(context))
-                    logging.info("question: ".ljust(15) + question)
-                    logging.info("low-t prediction: ".ljust(15) + predicted_answer)
-                    logging.info("correct answer: ".ljust(15) + str(correct_answer))
+                        logging.info("%-15s%s", "context: ", str(context))
+                    logging.info("%-15s%s", "question: ", question)
+                    logging.info("%-15s%s", "low-t prediction: ", predicted_answer)
+                    logging.info("%-15s%s", "correct answer: ", str(correct_answer))
                     logging.info("accuracy: ".ljust(15) + str(acc))
 
                     accuracies.append(acc)

@@ -12,8 +12,8 @@ import wandb
 
 from evaluate import load
 
-from uncertainty.models.huggingface_models import HuggingfaceModel
-from uncertainty.utils import openai as oai
+from models.huggingface_models import HuggingfaceModel
+from utils import openai as oai
 
 BRIEF_PROMPTS = {
     'default': "Answer the following question as briefly as possible.\n",
