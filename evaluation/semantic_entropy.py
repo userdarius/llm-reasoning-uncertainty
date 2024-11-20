@@ -26,12 +26,19 @@ class BaseEntailment:
 
 class EntailmentDeberta(BaseEntailment):
     def __init__(self):
+        # Use a different DeBERTa version
+        model_name = "microsoft/deberta-base-mnli"
         self.tokenizer = AutoTokenizer.from_pretrained(
-            "microsoft/deberta-v2-xlarge-mnli"
+            model_name,
+            trust_remote_code=True,
         )
         self.model = AutoModelForSequenceClassification.from_pretrained(
-            "microsoft/deberta-v2-xlarge-mnli"
-        ).to(DEVICE)
+            model_name,
+            trust_remote_code=True,
+        ).to("cuda" if torch.cuda.is_available() else "cpu")
+
+        self.prediction_cache = {}
+        self.cache_hits = 0
 
     def check_implication(self, text1, text2, *args, **kwargs):
         inputs = self.tokenizer(text1, text2, return_tensors="pt").to(DEVICE)
