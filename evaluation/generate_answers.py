@@ -10,7 +10,7 @@ import numpy as np
 import torch
 import wandb
 
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
 
 from techniques.speculative_decoding import (
     ModelWithProphetWrapper,
@@ -102,25 +102,41 @@ def main(args):
     experiment_details["BRIEF"] = BRIEF
     logging.info("Prompt is: %s", prompt)
 
-    # Initialize model.
-    # Initialize models for speculative decoding
+    # Initialize models and tokenizer with proper pipeline settings
     model_name = "meta-llama/Llama-3.2-3B"
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    primary_model = AutoModelForCausalLM.from_pretrained(model_name).to(
-        "cuda" if torch.cuda.is_available() else "cpu"
+    logging.info(f"Loading tokenizer from {model_name}")
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_name,
+        padding_side="left",
+        truncation_side="left",
+        use_fast=True,
     )
+    if not tokenizer.pad_token:
+        tokenizer.pad_token = tokenizer.eos_token
+    
+    logging.info(f"Loading primary model from {model_name}")
+    primary_model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        device_map="auto",
+        torch_dtype=torch.float16,
+        pad_token_id=tokenizer.pad_token_id,
+    ).eval()
 
-    # Initialize prophet model
-    prophet_model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-1B").to(
-        "cuda" if torch.cuda.is_available() else "cpu"
-    )
+    prophet_name = "meta-llama/Llama-3.2-1B"
+    logging.info(f"Loading prophet model from {prophet_name}")
+    prophet_model = AutoModelForCausalLM.from_pretrained(
+        prophet_name,
+        device_map="auto",
+        torch_dtype=torch.float16,
+        pad_token_id=tokenizer.pad_token_id,
+    ).eval()
 
-    # Wrap models for speculative decoding
+    logging.info("Creating model wrapper")
     model = ModelWithProphetWrapper(
         model=primary_model,
         prophet=prophet_model,
         tokenizer=tokenizer,
-    ).to(primary_model.device)
+    )
 
     # Initialize prompt for p_true baseline.
     if args.compute_p_true:
@@ -225,16 +241,32 @@ def main(args):
                 # Temperature for first generation is always `0.1`.
                 temperature = 0.1 if i == 0 else args.temperature
 
-                predicted_answer, acceptance_ratio, token_log_likelihoods, embedding = (
-                    speculative_decoding_with_prophet_model(
-                        net=model,
-                        prompt=local_prompt,
-                        seq_len=args.generate_length,
-                        gamma=args.speculative_gamma,
+                # Modify how we handle the generation
+                try:
+                    predicted_answer, token_log_likelihoods, embedding = model.predict(
+                        local_prompt,
                         temperature=temperature,
-                        filter_thres=args.filter_threshold,
                     )
-                )
+                except Exception as e:
+                    logging.error(f"Generation failed: {str(e)}")
+                    logging.error(f"Prompt: {local_prompt}")
+                    predicted_answer = ""
+                    token_log_likelihoods = None
+                    embedding = None
+
+                # Add better error handling for empty generations
+                if not predicted_answer.strip():
+                    logging.warning("Empty generation, retrying with different parameters")
+                    try:
+                        predicted_answer, token_log_likelihoods, embedding = model.predict(
+                            local_prompt,
+                            temperature=max(temperature, 0.7),  # Increase temperature for retry
+                        )
+                    except Exception as e:
+                        logging.error(f"Retry generation failed: {str(e)}")
+                        predicted_answer = "ERROR: Could not generate answer"
+                        token_log_likelihoods = None
+                        embedding = None
 
                 # Only compute accuracy if question is answerable.
                 compute_acc = args.compute_accuracy_at_all_temps or (i == 0)
@@ -313,31 +345,36 @@ def main(args):
     utils.save(experiment_details, "experiment_details.pkl")
     logging.info("Run complete.")
     del model
+    del primary_model
+    del prophet_model
+    torch.cuda.empty_cache()
 
 
 if __name__ == "__main__":
+    # Add better error handling for the main execution
+    try:
+        parser = utils.get_parser()
+        args, unknown = parser.parse_known_args()
+        logging.info("Starting new run with args: %s", args)
 
-    parser = utils.get_parser()
-    args, unknown = parser.parse_known_args()
-    logging.info("Starting new run with args: %s", args)
+        if unknown:
+            raise ValueError(f"Unknown args: {unknown}")
 
-    if unknown:
-        raise ValueError(f"Unkown args: {unknown}")
+        if args.compute_uncertainties:
+            args.assign_new_wandb_id = False
 
-    if args.compute_uncertainties:
-        args.assign_new_wandb_id = False
+        logging.info("STARTING `generate_answers`!")
+        main(args)
+        logging.info("FINISHED `generate_answers`!")
 
-    # First sample generations from LLM.
-    logging.info("STARTING `generate_answers`!")
-    main(args)
-    logging.info("FINISHED `generate_answers`!")
+        if args.compute_uncertainties:
+            gc.collect()
+            torch.cuda.empty_cache()
+            logging.info(50 * "#X")
+            logging.info("STARTING `compute_uncertainty_measures`!")
+            main_compute(args)
+            logging.info("FINISHED `compute_uncertainty_measures`!")
 
-    if args.compute_uncertainties:
-        # Follow with uncertainty calculation script by default.
-        args.assign_new_wandb_id = False
-        gc.collect()
-        torch.cuda.empty_cache()
-        logging.info(50 * "#X")
-        logging.info("STARTING `compute_uncertainty_measures`!")
-        main_compute(args)
-        logging.info("FINISHED `compute_uncertainty_measures`!")
+    except Exception as e:
+        logging.error(f"Run failed with error: {str(e)}")
+        raise

@@ -4,6 +4,7 @@ import torch
 from torch.nn import Module, ModuleList
 from torch import nn, einsum, Tensor
 import torch.nn.functional as F
+from transformers import pipeline
 
 from rotary_embedding_torch import RotaryEmbedding
 from beartype import beartype
@@ -293,7 +294,7 @@ class ModelWithProphetWrapper(Module):
         self,
         model: Module,
         prophet: Module,
-        tokenizer=None,  # Add tokenizer parameter
+        tokenizer=None,
         prophet_train_length=8,
         detach_model_embed_for_prophet=False,
         num_leading_start_tokens=1,
@@ -301,33 +302,36 @@ class ModelWithProphetWrapper(Module):
         super().__init__()
         self.model = model
         self.prophet = prophet
-
-        # Handle tokenizer
-        if tokenizer is not None:
-            self.tokenizer = tokenizer
-        elif hasattr(model, "tokenizer"):
-            self.tokenizer = model.tokenizer
-        else:
-            raise ValueError(
-                "Either pass a tokenizer or ensure model has a tokenizer attribute"
-            )
-
-        # Set device
+        self.tokenizer = tokenizer
+        
+        # Get device from model
         self.device = next(model.parameters()).device
-
-        # Set max_new_tokens if not present
-        self.max_new_tokens = getattr(model, "max_new_tokens", 100)  # default to 100
-
-        # Get dimensions from config for HuggingFace models
-        model_dim = getattr(model.config, "hidden_size", getattr(model, "dim", None))
-        prophet_dim = getattr(
-            prophet.config, "hidden_size", getattr(prophet, "dim", None)
+        
+        # Setup token limit from model config or default
+        self.token_limit = getattr(model.config, 'max_position_embeddings', 4096)  # Default for LLaMA
+        
+        # Setup pipeline
+        self.pipeline = pipeline(
+            "text-generation",
+            model=model,
+            tokenizer=tokenizer,
+            do_sample=True,
+            return_full_text=False,
+            pad_token_id=tokenizer.eos_token_id if tokenizer else None,
         )
+        
+        # Get max_new_tokens from model config or use default
+        self.max_new_tokens = min(
+            getattr(model.config, "max_new_tokens", 100),
+            self.token_limit - 1  # Leave room for at least 1 input token
+        )
+        
+        # Get model dimensions from config
+        model_dim = getattr(model.config, 'hidden_size', None)
+        prophet_dim = getattr(prophet.config, 'hidden_size', None)
 
         if model_dim is None or prophet_dim is None:
-            raise ValueError(
-                "Could not determine model dimensions. Models must have either 'hidden_size' in config or 'dim' attribute."
-            )
+            raise ValueError("Could not determine model dimensions from config.")
 
         model_prophet_same_dim = model_dim == prophet_dim
         self.to_prophet_start_token = (
@@ -344,30 +348,51 @@ class ModelWithProphetWrapper(Module):
 
     def predict(self, prompt, temperature=1.0):
         """
-        Wrapper for model prediction to maintain compatibility with evaluation code.
+        Use HF pipeline for text generation while capturing logprobs and embeddings.
         """
-        inputs = self.tokenizer(prompt, return_tensors="pt").to(self.device)
-
-        with torch.no_grad():
-            outputs = self.model.generate(
-                **inputs,
-                max_new_tokens=self.max_new_tokens,
-                temperature=temperature,
-                do_sample=True,
-                return_dict_in_generate=True,
-                output_scores=True,
+        # Check input length
+        input_ids = self.tokenizer(prompt, return_tensors="pt")["input_ids"]
+        if input_ids.shape[1] > self.token_limit:
+            logging.warning(
+                f"Input length {input_ids.shape[1]} exceeds token limit {self.token_limit}. Truncating..."
             )
-
-        generated_text = self.tokenizer.decode(
-            outputs.sequences[0], skip_special_tokens=True
-        )[len(prompt) :]
-
-        logprobs = None
-        if hasattr(outputs, "scores"):
-            logprobs = torch.stack(outputs.scores).softmax(dim=-1)
-
-        embeddings = None
-
+            # Truncate from the left since that's usually less important for completion
+            input_ids = input_ids[:, -self.token_limit:]
+            prompt = self.tokenizer.decode(input_ids[0])
+        
+        # Use pipeline for text generation
+        outputs = self.pipeline(
+            prompt,
+            max_new_tokens=self.max_new_tokens,
+            temperature=temperature,
+            num_return_sequences=1,
+            return_full_text=False,
+        )
+        generated_text = outputs[0]["generated_text"].strip()
+        
+        # Get logprobs and embeddings directly from model
+        inputs = self.tokenizer(prompt + generated_text, return_tensors="pt").to(
+            self.device
+        )
+        
+        with torch.no_grad():
+            model_outputs = self.model(
+                **inputs,
+                output_hidden_states=True,
+                return_dict=True
+            )
+            
+            # Get logprobs
+            logits = model_outputs.logits
+            logprobs = torch.nn.functional.log_softmax(logits, dim=-1)
+            
+            # Get embeddings from last hidden state
+            embeddings = model_outputs.hidden_states[-1]
+            
+            # Only keep the embeddings for the generated text part
+            prompt_length = len(self.tokenizer(prompt)["input_ids"])
+            embeddings = embeddings[:, prompt_length:, :]
+        
         return generated_text, logprobs, embeddings
 
     def forward(self, x):
