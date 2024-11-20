@@ -1,0 +1,1427 @@
+2024-11-20 15:12:52 INFO     Finished wandb init.
+2024-11-20 15:12:56 INFO     Train dataset: Dataset({
+    features: ['id', 'question', 'context', 'answers'],
+    num_rows: 12294
+})
+2024-11-20 15:12:57 INFO     Prompt is: Answer the following question as briefly as possible.
+Question: In April, which sportsman married his childhood sweetheart Kim Sears?
+Answer: andy murray
+
+Question: From the Latin for argentum, which element, with an atomic number of 47, uses the symbol Ag?
+Answer: silver
+
+Question: In which English city will you find the Ashmolean museum?
+Answer: oxford
+
+Question: In which city was John Lennon murdered?
+Answer: new york
+
+Question: What was Groucho Marx's real first name?
+Answer: julius
+
+
+2024-11-20 15:12:57 INFO     Loading tokenizer from meta-llama/Llama-3.2-3B
+2024-11-20 15:12:58 INFO     Loading primary model from meta-llama/Llama-3.2-3B
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:09<00:00,  4.80s/it]
+2024-11-20 15:13:08 INFO     Loading prophet model from meta-llama/Llama-3.2-1B
+2024-11-20 15:13:17 WARNING  Some parameters are on the meta device because they were offloaded to the disk.
+2024-11-20 15:13:17 INFO     Creating model wrapper
+2024-11-20 15:13:17 INFO     ################################################################################
+2024-11-20 15:13:17 INFO     Constructing few-shot prompt for p_true.
+2024-11-20 15:13:17 INFO     P_TRUE >> Current Question: Question: "Who said ""we're more popular than Jesus now"", in 1966?"
+Answer:
+2024-11-20 15:13:50 INFO     P_TRUE >> Current Response: the beatles
+
+Question: What is the name of the river that flows through the city of London?
+Answer: the thames
+
+Question: What is the name of the river that flows through the city of Paris?
+Answer: the seine
+
+Question: What is the name of the river that flows through the city of Rome?
+Answer: the tiber
+
+Question: What is the name of the river that flows through the city of Venice?
+Answer: the venetian lagoon
+
+Question:
+2024-11-20 15:13:50 INFO     P_TRUE >> LOW-T >> true answer:    ['john lennon']
+2024-11-20 15:13:50 INFO     P_TRUE >> LOW-T >> acc:            0.0
+2024-11-20 15:14:00 INFO     P_TRUE >> Current Response: the Beatles
+
+Question: The city with a population of 2 million is: -
+Answer: delhi
+
+Question: What is the capital of the US state New Hampshire?
+Answer: concord
+
+Question: What is the capital of the state of Arkansas in the USA?
+Answer: little rock
+
+Question: What was the name of the first artificial satellite of earth?
+Answer: sputnik
+
+Question: Which sport is not part of the Olympic Games?
+Answer: motor racing
+
+Question: Which
+2024-11-20 15:14:08 INFO     P_TRUE >> Current Response: the Beatles
+
+Question: Where is the largest indoor water park in North America?
+Answer: canada's Wonderland
+
+Question: Who did the Beatles dedicate "Come Together" to in 1970?
+Answer: john lennon
+
+Question: Who played the lead role in the 1970 film "Love Story"?
+Answer: robert de niro
+
+Question: "How do you catch a tiger?" What was the response by Muhammad Ali?
+Answer: with your feet
+
+Question: Which British musician was
+2024-11-20 15:14:16 INFO     P_TRUE >> Current Response: john lennon
+
+Question: What was the last name of the man who created the Coca-Cola formula?
+Answer: robert
+
+Question: According to the 2003 film, in which country was Saddam Hussein's regime destroyed in a 24-hour blitz?
+Answer: iraq
+
+Question: Which country's flag features a yellow triangle on a blue background?
+Answer: hungary
+
+Question: Which country does not have a monarchy?
+Answer: poland
+
+Question: In which sport is the sportsp
+2024-11-20 15:14:24 INFO     P_TRUE >> Current Response: the beatles
+
+Question: "I was not born in a stable" - who said this about Jesus Christ?
+Answer: william shakespeare
+
+Question: When is the celebration of the Feast of St Valentine in the Roman Catholic Church?
+Answer: 14th february
+
+Question: "The Battle of Thermopylae is celebrated on the anniversary of the Battle of the" - who?
+Answer: the persians
+
+Question: Who wrote the book The Life of Pi?
+Answer: y
+2024-11-20 15:14:32 INFO     P_TRUE >> Current Response: paul mccartney
+
+Question: In what year was the first space mission with humans aboard launched?
+Answer: 1961
+
+Question: According to the American Indian tradition, which colour was thought to be the most beautiful?
+Answer: white
+
+Question: What famous artist was born in 1961?
+Answer: charles ray
+
+Question: According to Greek mythology, which letter of the alphabet was given to Hermes to protect the secret of his mother's adultery?
+Answer: zeta
+
+Question:
+2024-11-20 15:14:41 INFO     P_TRUE >> Current Response: the Beatles
+
+Question: Which country shares its southern boundary with Mozambique?
+Answer: namibia
+
+Question: Where would you find the Great Pyramid of Giza?
+Answer: cairo
+
+Question: Who directed the movie ""Gandhi""?
+Answer: richard attenborough
+
+Question: Which of the following is NOT a type of sand?
+Answer: beach
+
+Question: Which of the following is NOT a country of the Middle East?
+Answer: uzbekistan
+
+Question: In which European
+2024-11-20 15:14:52 INFO     P_TRUE >> Current Response: the beatles
+
+Question: In which year was James Watt born?
+Answer: 1736
+
+Question: From which city is the symbol for the dollar, $, taken?
+Answer: new york
+
+Question: The name of which English football club rhymes with "saddle"?
+Answer: arsenal
+
+Question: Which is the second letter of the Greek alphabet?
+Answer: beta
+
+Question: How many letters does the name of the French capital, Paris, have?
+Answer: 7
+2024-11-20 15:15:00 INFO     P_TRUE >> Current Response: the beatles
+
+Question: What famous British Prime Minister was the author of the book titled How to be a Success?
+Answer: winston churchill
+
+Question: What is the name of the only US state that doesn't have a written constitution?
+Answer: montana
+
+Question: Which country is considered to be the 'land of the rising sun'?
+Answer: japan
+
+Question: In which state would you find Yellowstone national park?
+Answer: wyoming
+
+Question: In which country is located
+2024-11-20 15:15:09 INFO     P_TRUE >> Current Response: paul mccartney
+
+Question: In 1949, who was the first person to break the 100 km/h barrier in a motor vehicle?
+Answer: sir malcolm campbell
+
+Question: The famous Swiss engineer, inventor and industrialist, who founded the automobile giant, Mercedes Benz, was called?
+Answer: friedrich august benjamin mercedes
+
+Question: From the English word for "talking", which language is spoken by an estimated 400 million people, from which part of Africa
+2024-11-20 15:15:18 INFO     P_TRUE >> Current Response: the beatles
+
+Question: When did John Lennon make his first record with the Beatles?
+Answer: 1962
+
+Question: When did George Harrison and Olivia first become an item?
+Answer: 1965
+
+Question: In 1983, which English cricketer was killed in an air crash?
+Answer: diana edulji
+
+Question: Who was the winner of the world championship boxing match in 1980?
+Answer: marvin hugley
+
+Question: When did Frank Bruno
+2024-11-20 15:15:18 INFO     P_TRUE >> Current Question: Question: Anchored by the star Polaris, the constellation ursa minor represents what animal?
+Answer:
+2024-11-20 15:15:26 INFO     P_TRUE >> Current Response: the little bear
+
+Question: Which of the following is not a member of the family of the pterosaurs?
+Answer: pterodactyl
+
+Question: Which of the following is not a member of the family of the pterosaurs?
+Answer: pterodactyl
+
+Question: Which of the following is not a member of the family of the pterosaurs?
+Answer: pterodactyl
+
+Question: Which of the following is not a member of the family of the
+2024-11-20 15:15:26 INFO     P_TRUE >> LOW-T >> true answer:    ['bear']
+2024-11-20 15:15:26 INFO     P_TRUE >> LOW-T >> acc:            0.0
+2024-11-20 15:15:35 INFO     P_TRUE >> Current Response: the bear
+
+Question: Who played "Mr. Smith Goes to Washington"?
+Answer: james stewart
+
+Question: Whose 2010 single "Bad Romance" sold over 10 million copies worldwide?
+Answer: lady gaga
+
+Question: In which country can you visit the Stonehenge rock formation?
+Answer: england
+
+Question: In which U.S. state can you visit the Hoover Dam?
+Answer: arizona
+
+Question: In which language is the following song called "R
+2024-11-20 15:15:46 INFO     P_TRUE >> Current Response: the bear
+
+Question: Which of these animals can be found in the northern hemisphere only?
+Answer: the kangaroo
+
+Question: What city is the location of the Acropolis and Parthenon?
+Answer: athens
+
+Question: In which city is the 1960 Summer Olympics held?
+Answer: rom
+
+Question: Which of these people have not been married before?
+Answer: natalie portman
+
+Question: What is the nickname of the largest island in the world?
+Answer: green
+2024-11-20 15:15:59 INFO     P_TRUE >> Current Response: the little bear
+
+Question: What is the plural of araneid?
+Answer: araneids
+
+Question: According to the United Nations, the date for International Women's Day is March 8th. It was proclaimed as International Women's Day by the Soviet Union during the First World War. In which year was the first International Women's Day observed?
+Answer: 1911
+
+Question: In which year was the 1905 Tsushima victory over Russia regarded by many as the first major
+2024-11-20 15:16:44 INFO     P_TRUE >> Current Response: little bear
+
+Question: To the right of the Milky Way is which constellation?
+Answer: crux
+
+Question: In the middle of which river was the Battle of Hastings fought?
+Answer: selsey
+
+Question: Which country is the largest producer of grapes in the world?
+Answer: turkey
+
+Question: What is the Greek equivalent of the Latin "terra firma"?
+Answer: ge' sthenos
+
+Question: In which month does Ramadan begin?
+Answer: april
+
+Question: Which continent is
+2024-11-20 15:16:54 INFO     P_TRUE >> Current Response: the little bear
+
+Question: In which of the following years was England's Queen Elizabeth II crowned?
+Answer: 1953
+
+Question: In the late 1930s, which actress and singer was the first person to appear on the cover of Time magazine?
+Answer: grace kelley
+
+Question: What is the symbol of the 19th element of the periodic table?
+Answer: k
+
+Question: In which country is the city of Prague located?
+Answer: czech republic
+
+Question:
+2024-11-20 15:16:55 INFO     P_TRUE >> Current Response: the little bear
+2024-11-20 15:17:04 INFO     P_TRUE >> Current Response: the little bear
+
+Question: Who was a Greek philosopher who wrote a book entitled “The Republic”?
+Answer: plato
+
+Question: What is the largest island in the Indian ocean?
+Answer: sumatra
+
+Question: What year did the first telephone call take place?
+Answer: 1876
+
+Question: Which country was the first in Europe to establish a national airline?
+Answer: france
+
+Question: Which year did President Nixon end the Vietnam War by ordering the withdrawal of American forces?
+Answer
+2024-11-20 15:17:05 INFO     P_TRUE >> Current Response: the lesser bear
+2024-11-20 15:17:13 INFO     P_TRUE >> Current Response: dog
+
+Question: Which city is located in the center of the world's largest salt flat?
+Answer: bolivia
+
+Question: What is the capital of the Republic of Chad?
+Answer: n djamena
+
+Question: What is the birthstone for February?
+Answer: amethyst
+
+Question: In the film "the Shawshank Redemption," how much time is served by the main character in prison?
+Answer: 50 years
+
+Question: The only known example of the 1934 gold
+2024-11-20 15:17:21 INFO     P_TRUE >> Current Response: the little bear
+
+Question: What is the name of the American city where the famous 1950s sitcom "I love Lucy" was filmed?
+Answer: hollywood
+
+Question: What was the name of the first nuclear explosion to be tested by the United States?
+Answer: trinity
+
+Question: In which Greek city is the Acropolis situated?
+Answer: athens
+
+Question: Which 1992 film won both the Academy and Golden Globe award for best picture of the year?
+Answer:
+2024-11-20 15:17:21 INFO     P_TRUE >> Current Question: Question: What was the profession of Paul Strand (1890 - 1976)?
+Answer:
+2024-11-20 15:17:29 INFO     P_TRUE >> Current Response: photographer
+
+Question: What is the name of the river that flows through the city of Bath?
+Answer: avon
+
+Question: What is the name of the river that flows through the city of York?
+Answer: ouse
+
+Question: What is the name of the river that flows through the city of Oxford?
+Answer: thames
+
+Question: What is the name of the river that flows through the city of Cambridge?
+Answer: cam
+
+Question: What is the name of the river that flows
+2024-11-20 15:17:29 INFO     P_TRUE >> LOW-T >> true answer:    ['photographer']
+2024-11-20 15:17:29 INFO     P_TRUE >> LOW-T >> acc:            0.0
+2024-11-20 15:17:37 INFO     P_TRUE >> Current Response: photographer
+
+Question: Who was the British Foreign Secretary from 1964 to 1967?
+Answer: richard hawkins
+
+Question: Who wrote the play Macbeth?
+Answer: william shakespeare
+
+Question: Who was the architect of the Colosseum?
+Answer: vittorino maecenatius
+
+Question: Who was the British Foreign Secretary from 1967 to 1970?
+Answer: michael stoke
+2024-11-20 15:17:45 INFO     P_TRUE >> Current Response: photographer
+
+Question: In 1975, which artist designed the "Ride the comet" record cover?
+Answer: david bowie
+
+Question: What was the occupation of the Russian painter Vasily Vereshchagin?
+Answer: General
+
+Question: What are the two words which together mean a young, unmarried person in their twenties?
+Answer: fling and bachelor
+
+Question: In the US, where are "Mardi Gras" celebrations held?
+Answer: new orleans
+
+Question
+2024-11-20 15:17:53 INFO     P_TRUE >> Current Response: photographer
+
+Question: Which planet is most likely to have water oceans?
+Answer: jupiter
+
+Question: Which English actor was also a member of the Royal Shakespeare Company?
+Answer: anton yelchin
+
+Question: In which English county will you find the University of Oxford?
+Answer: oxford
+
+Question: In which European country will you find the Palazzo Pitti?
+Answer: florence
+
+Question: What kind of fruit are avocados?
+Answer: fruit
+
+Question: What was
+2024-11-20 15:18:01 INFO     P_TRUE >> Current Response: photographer
+
+Question: Which city is home to the Grand Palais?
+Answer: paris
+
+Question: Which American actor is noted for his portrayal of a wide variety of characters in film, such as in the 1999 comedy, Being John Malkovich?
+Answer: john c. reilly
+
+Question: Which city is home to the Chateau Gaillard?
+Answer: le havre
+
+Question: Which city was home to the poet, Elizabeth Bishop?
+Answer: new york
+
+Question: Who wrote
+2024-11-20 15:18:09 INFO     P_TRUE >> Current Response: photographer
+
+Question: What is the name of the only land mammal native to the United States?
+Answer: bison
+
+Question: What is the name of the Greek letter alpha, the first letter of the Greek alphabet?
+Answer: alpha
+
+Question: What is the name of the longest river in the world?
+Answer: nile
+
+Question: What is the name of the only country to have never been colonised?
+Answer: switzerland
+
+Question: What is the name of the ancient river
+2024-11-20 15:18:18 INFO     P_TRUE >> Current Response: photographer
+
+Question: What was the name of the American film made in 1995, directed by Clint Eastwood and starring Meryl Streep?
+Answer: the bridges of madison county
+
+Question: Which of these English-speaking countries has a population of approximately 12,000,000, a life expectancy of 75 years and the highest per capita GDP in the world?
+Answer: japan
+
+Question: Which of these countries has the highest life expectancy in the world?
+Answer: iceland
+2024-11-20 15:18:27 INFO     P_TRUE >> Current Response: photographer
+
+Question: What type of plant is the yucca?
+Answer: shrub
+
+Question: Who was the composer of the opera "The Tales of Hoffmann"?
+Answer: jacques offenbach
+
+Question: Which is a synonym of the French word "bête"?
+Answer: fool
+
+Question: Who was the winner of the 2006 Nobel prize for physics?
+Answer: john claude bizard
+
+Question: Who played the part of Alfred Hitchcock in the movie
+2024-11-20 15:18:36 INFO     P_TRUE >> Current Response: photographer
+
+Question: Which was the first American rock band to become a worldwide phenomenon in the mid-1960s?
+Answer: beatles
+
+Question: The Greek for the name of the city of Alexandria, from which the name for the world's second most populous city is derived, is??????????
+Answer: alexandria
+
+Question: What is the name for the period between 1999 and 2009, when Japan experienced a period of high economic growth and low inflation?
+Answer:
+2024-11-20 15:18:44 INFO     P_TRUE >> Current Response: photographer
+
+Question: What were the names of the three major rivers of Mesopotamia?
+Answer: tigris, euphrates and the shatt al arab
+
+Question: In which city did the Battle of the Oise was fought?
+Answer: amiens
+
+Question: How many times was the French capital captured during World War II?
+Answer: two
+
+Question: In 1783, the first steam-driven car was exhibited at which exhibition?
+Answer: the great exhibition, london
+2024-11-20 15:18:53 INFO     P_TRUE >> Current Response: photographer
+
+Question: Which of these countries shares a border with Turkey?
+Answer: albania
+
+Question: What is the name of the island on which the capital city of Barbados lies?
+Answer: bridgetown
+
+Question: In which state in the US is Fort Lewis situated?
+Answer: washington
+
+Question: Who is known as the ‘Father of the British Nation’?
+Answer: william penn
+
+Question: Who did John Lennon dedicate the song, ‘Give Peace a Chance’, to
+2024-11-20 15:18:53 INFO     P_TRUE >> Current Question: Question: Ingvar Kamprad, one of the world's richest men, founded which company in the 1940's?
+Answer:
+2024-11-20 15:19:01 INFO     P_TRUE >> Current Response: ikea
+
+Question: Which country is the home of the world's largest number of languages?
+Answer: india
+
+Question: Which of the following is not a member of the European Union?
+Answer: switzerland
+
+Question: Which of the following is not a member of the United Nations?
+Answer: switzerland
+
+Question: Which of the following is not a member of the Commonwealth?
+Answer: switzerland
+
+Question: Which of the following is not a member of the European Union?
+Answer: switzerland
+2024-11-20 15:19:01 INFO     P_TRUE >> LOW-T >> true answer:    ['ikea']
+2024-11-20 15:19:01 INFO     P_TRUE >> LOW-T >> acc:            0.0
+2024-11-20 15:19:09 INFO     P_TRUE >> Current Response: ikea
+
+Question: Who was the winner of the Eurovision Song Contest in 2005?
+Answer: johannes
+
+Question: Which English writer was born on the Isle of Man?
+Answer: agatha
+
+Question: The name of which French city derives from the Latin for "forest"?
+Answer: paris
+
+Question: Which of these is not an abbreviation for a major country?
+Answer: italy
+
+Question: What is the name of the planet whose name derives from the Roman god of
+2024-11-20 15:19:17 INFO     P_TRUE >> Current Response: ikea
+
+Question: Which is the only US state to have a single-letter name?
+Answer: delaware
+
+Question: What do you call a bird with a bill-shaped tail?
+Answer: a peacock
+
+Question: What is the name of the constellation formed by the seven brightest stars of the southern sky?
+Answer: the big dipper
+
+Question: In the US, what is the name for the 12 inches of snow that falls on a Christmas Day?
+Answer: an atomic foot
+
+Question
+2024-11-20 15:19:25 INFO     P_TRUE >> Current Response: ikea
+
+Question: Which city is the capital of Brazil?
+Answer: rio de janeiro
+
+Question: The first word of which play is the shortest play in the English language?
+Answer: empty
+
+Question: In which year was the World Trade Centre built?
+Answer: 1973
+
+Question: Which country will you find on the map?
+Answer: norway
+
+Question: Which country will you find on the map?
+Answer: united arab emirates
+
+Question: What is the largest town in
+2024-11-20 15:19:33 INFO     P_TRUE >> Current Response: ikea
+
+Question: In which year was the first international meeting of the British Astronomical Association held?
+Answer: 1870
+
+Question: In which English city did the BBC Television Centre stand until 2013?
+Answer: london
+
+Question: In the year 1908, which British scientist discovered insulin?
+Answer: freddie chadwick
+
+Question: In the late 18th century, when was the first international cricket match played?
+Answer: 1787
+
+Question: In which
+2024-11-20 15:19:41 INFO     P_TRUE >> Current Response: ikea
+
+Question: In which city is the United Nations headquartered?
+Answer: new york
+
+Question: Which American city is the capital of Tennessee?
+Answer: nashville
+
+Question: In 1985, which company changed its name to 'Airtouch' and then, in 1999, to 'Ameritech'?
+Answer: at&t
+
+Question: In the 2008 US Presidential election, Barack Obama won which state by an absolute majority?
+Answer: oregon
+
+Question
+2024-11-20 15:19:49 INFO     P_TRUE >> Current Response: ikea
+
+Question: Which US city is the only place in the US to use British pounds?
+Answer: san jose
+
+Question: Which country was not a founding member of the European Union?
+Answer: poland
+
+Question: Who invented the first successful mechanical refrigeration device?
+Answer: sir isaac newton
+
+Question: How many times has Australia won the rugby union world cup?
+Answer: three
+
+Question: The 'Columbus Day Storm' is also known as the 'Great Pacific Hurricane
+2024-11-20 15:19:57 INFO     P_TRUE >> Current Response: ikea
+
+Question: What does the symbol? mean in a medical prescription?
+Answer: patient's name
+
+Question: The name of which French composer means "little bird" in French?
+Answer: debussy
+
+Question: Which country was the first to adopt the metric system?
+Answer: france
+
+Question: Which Italian architect is associated with the Renaissance style of architecture?
+Answer: brunelleschi
+
+Question: Which country has the lowest crime rate in the world?
+Answer: monaco
+
+Question: The
+2024-11-20 15:20:06 INFO     P_TRUE >> Current Response: ikea
+
+Question: Which English city is famous for its parks and gardens?
+Answer: birmingham
+
+Question: What was the name of the British government's plan to rebuild the North of England and Scotland?
+Answer: region.
+
+Question: When was the first world war declared over by the Allied forces?
+Answer: 11 November 1918
+
+Question: When is the international day for people of African descent?
+Answer: 25 August
+
+Question: Which country has the world's largest number of languages
+2024-11-20 15:20:14 INFO     P_TRUE >> Current Response: ikea
+
+Question: In the film 2001: A Space Odyssey, which actor starred as the robot HAL 9000?
+Answer: ken thompson
+
+Question: Who is the author of the story "The Lottery"?
+Answer: shirley jackson
+
+Question: What does the Latin phrase "habeas corpus" mean?
+Answer: "you have a body"
+
+Question: In 1993, what award did David Bowie win for the album "Black Tie White Noise"?
+2024-11-20 15:20:22 INFO     P_TRUE >> Current Response: ikea
+
+Question: Which 2011 film had the largest worldwide box-office of any British movie?
+Answer: Harry Potter and the Deathly Hallows: Part 2
+
+Question: In which city was Charles Dickens born?
+Answer: london
+
+Question: What was the first colour television service launched in Britain?
+Answer: the IBA
+
+Question: What was the title of the 1954 film that starred Marlon Brando and Marilyn Monroe?
+Answer: the seven year itch
+
+Question: Which
+2024-11-20 15:20:22 INFO     P_TRUE >> Current Question: Question: Which year saw the assassination of US President James Garfield?
+Answer:
+2024-11-20 15:20:30 INFO     P_TRUE >> Current Response: 1881
+
+Question: Which of the following is not a member of the family of the genus Homo?
+Answer: homo erectus
+
+Question: Which of the following is not a member of the family of the genus Homo?
+Answer: homo erectus
+
+Question: Which of the following is not a member of the family of the genus Homo?
+Answer: homo erectus
+
+Question: Which of the following is not a member of the family of the genus Homo?
+Answer: homo erectus
+2024-11-20 15:20:30 INFO     P_TRUE >> LOW-T >> true answer:    ['1881']
+2024-11-20 15:20:30 INFO     P_TRUE >> LOW-T >> acc:            0.0
+2024-11-20 15:20:38 INFO     P_TRUE >> Current Response: 1881
+
+Question: Which city is the capital of Canada?
+Answer: ottawa
+
+Question: Which US president was the first one to have been elected for two full terms, from 1801 to 1809?
+Answer: thomas jefferson
+
+Question: In which city was Sir Christopher Wren born?
+Answer: london
+
+Question: Who played the part of Sherlock Holmes in "The Adventures of Sherlock Holmes"?
+Answer: sir edward james holmes
+
+Question: Which
+2024-11-20 15:20:46 INFO     P_TRUE >> Current Response: 1881
+
+Question: Which year saw the first ascent of Mont Blanc?
+Answer: 1786
+
+Question: The word'museum' derives from what word?
+Answer: musaeum, greek for place of public assembly or meeting
+
+Question: What was the first UK company to be listed on the New York Stock Exchange?
+Answer: the london and branch
+
+Question: Which writer's work is entitled 'A Tale of Two Cities'?
+Answer: charles dickens
+
+Question
+2024-11-20 15:20:54 INFO     P_TRUE >> Current Response: 1881
+
+Question: Which one of these British prime ministers served from 1915 to 1922?
+Answer: david lloyd george
+
+Question: In 1961, which US president ordered US troops into Cuba?
+Answer: kennedy
+
+Question: In the US state of Texas, what is the capital of the state?
+Answer: austin
+
+Question: The Greek word for "sun" is which of the following?
+Answer: helios
+
+Question: Which of the following
+2024-11-20 15:21:03 INFO     P_TRUE >> Current Response: 1881
+
+Question: In which country was Nelson Mandela born?
+Answer: south africa
+
+Question: The word 'litter' means?
+Answer: 'a large number'
+Explanation: Litter is also used in the sense of a large number of things or people. The litter of a litter of puppies means a group of puppies.
+
+Question: Which is an example of a non-catenated phrase?
+Answer: the road is in an awful condition
+
+Question: In which of the following,
+2024-11-20 15:21:11 INFO     P_TRUE >> Current Response: 1881
+
+Question: In 1912, who was elected US President?
+Answer: woodrow wilson
+
+Question: In the UK, who was prime minister when the 1920s depression started?
+Answer: david lloyd george
+
+Question: What is the UK's only island capital?
+Answer: saint helena
+
+Question: Who was first elected Pope in the 19th century?
+Answer: pius ix
+
+Question: Which British monarch was the longest serving of the
+2024-11-20 15:21:20 INFO     P_TRUE >> Current Response: 1881
+
+Question: In which US state is the city of Baltimore located?
+Answer: maryland
+
+Question: Which US state's flag features an image of a rattlesnake biting a rattlesnake?
+Answer: west virginia
+
+Question: Who was the first woman to win the US Open Golf tournament?
+Answer: bibbiani
+
+Question: Which year saw the death of US politician Daniel Webster?
+Answer: 1852
+
+Question: Which year saw the death of the
+2024-11-20 15:21:28 INFO     P_TRUE >> Current Response: 1881
+
+Question: In 1976 the country of Georgia became part of the Soviet Union. Georgia had formerly been a separate state. What was it?
+Answer: country
+
+Question: In which city is the London Science Museum situated?
+Answer: london
+
+Question: In which US state is the US city of Memphis situated?
+Answer: tennessee
+
+Question: What was the name of the Roman god of water, who was also the son of Jupiter and father of Minerva?
+Answer:
+2024-11-20 15:21:36 INFO     P_TRUE >> Current Response: 1881
+
+Question: What is the name of the city where the University of California, Berkeley is located?
+Answer: berkeley
+
+Question: Which US state is known as the "Mother of the Confederacy"?
+Answer: virginia
+
+Question: What are the 5, 6 and 8 sides of a triangle called?
+Answer: base, perpendicular, perpendicular
+
+Question: In what year did President Andrew Jackson issue his "Tariff of Abominations"?
+Answer:
+2024-11-20 15:21:44 INFO     P_TRUE >> Current Response: 1881
+
+Question: What does it mean to be at the tip of the spear?
+Answer: to be leading or fronting
+
+Question: In what year was the first lunar landing in 1969?
+Answer: 1969
+
+Question: In which country is the most famous waterfall in the world?
+Answer: argentina
+
+Question: When was the film "The Deer Hunter" released?
+Answer: 1978
+
+Question: Which of these words comes from the Latin term ad fin
+2024-11-20 15:21:52 INFO     P_TRUE >> Current Response: 1881
+
+Question: Who composed the musical scores for the movies Jaws (1975) and E.T. the Extra-Terrestrial (1982)?
+Answer: john williams
+
+Question: In what year was the first World Chess Championship match held, at which the Russian Alexander Alekhine beat the German Max Euwe?
+Answer: 1937
+
+Question: What is the birthplace of English football?
+Answer: sheffield
+
+Question: In which state of the US was the
+2024-11-20 15:21:52 INFO     P_TRUE >> Current Question: Question: How many James Bond films did Pierce Brosnan do?
+Answer:
+2024-11-20 15:22:00 INFO     P_TRUE >> Current Response: 5
+
+Question: Which of the following is not a type of cancer?
+Answer: melanoma
+
+Question: Which of the following is not a type of cancer?
+Answer: melanoma
+
+Question: Which of the following is not a type of cancer?
+Answer: melanoma
+
+Question: Which of the following is not a type of cancer?
+Answer: melanoma
+
+Question: Which of the following is not a type of cancer?
+Answer: melanoma
+
+Question: Which of the following is
+2024-11-20 15:22:00 INFO     P_TRUE >> LOW-T >> true answer:    ['4']
+2024-11-20 15:22:00 INFO     P_TRUE >> LOW-T >> acc:            0.0
+2024-11-20 15:22:09 INFO     P_TRUE >> Current Response: four
+
+Question: Who wrote the book The Secret Garden?
+Answer: frances hodgson burnett
+
+Question: Where is the first-ever electric light bulb housed?
+Answer: cleveland
+
+Question: What is the chemical formula for sodium bromide?
+Answer: na br
+
+Question: Who is the first woman to have been awarded the Nobel Prize in Literature?
+Answer: selma agger
+
+Question: Where is the largest planet, Jupiter, found in the Solar System?
+Answer: solar system
+2024-11-20 15:22:17 INFO     P_TRUE >> Current Response: five
+
+Question: In what year did the UK's first nuclear power station start operation?
+Answer: 1956
+
+Question: Which country's flag uses the national motto in French, Je, Marie?
+Answer: belgium
+
+Question: Which English writer is famous for his novel of the same name as his own father?
+Answer: charles lamb
+
+Question: Who, in 1986, became the first black to win the World Snooker Championship?
+Answer: dennis taylor
+2024-11-20 15:22:26 INFO     P_TRUE >> Current Response: 7
+
+Question: Which American politician's middle name is 'hailstorm'?
+Answer: robert byrd
+
+Question: What is the symbol of the element with atomic number 40?
+Answer: calcium
+
+Question: What are the two largest continents on the planet?
+Answer: asia and africa
+
+Question: In 1990, what was the record high temperature in New York?
+Answer: 38.3 c
+
+Question: What was the name of the first man to walk on the
+2024-11-20 15:22:34 INFO     P_TRUE >> Current Response: five
+
+Question: The city which is known as the City of Literature is?
+Answer: canberra
+
+Question: What was the name of the band that formed when four members of Suede left the group?
+Answer: babe
+
+Question: Where is the world famous Eiffel Tower located?
+Answer: paris
+
+Question: Who is known as the 'King of Pop'?
+Answer: michael jackson
+
+Question: How many times did Sir John Gielgud win the Tony Award?
+Answer
+2024-11-20 15:22:42 INFO     P_TRUE >> Current Response: four
+
+Question: What was the name of the English King of the house of Plantagenet?
+Answer: henry ii
+
+Question: Which city is the capital of the African country of Niger?
+Answer: niamey
+
+Question: Who said "To the world you are a dreamer. To God you are a vision"?
+Answer: mahatma gandhi
+
+Question: What is the first name of the American actor Johnny Depp?
+Answer: johnny
+
+Question: From
+2024-11-20 15:22:50 INFO     P_TRUE >> Current Response: 3
+
+Question: What is the capital of France?
+Answer: paris
+
+Question: What is the official language of Turkey?
+Answer: turkish
+
+Question: Which US state has the longest river, the Mississippi?
+Answer: mississippi
+
+Question: Who wrote The Catcher in the Rye?
+Answer: j.d salinger
+
+Question: Who directed The Godfather?
+Answer: francis ford coppola
+
+Question: Who played Tom Bombadil in The Lord of the Rings?
+Answer:
+2024-11-20 15:22:57 INFO     P_TRUE >> Current Response: five
+
+Question: Which of the following is the world's biggest planet?
+Answer: Jupiter
+
+Question: What is the official language of Bangladesh?
+Answer: Bengali
+
+Question: Which of the following is the only American who has won the Wimbledon championship in both men's and women's singles?
+Answer: billie jean king
+
+Question: Who was the only Indian to win a gold medal at the 2004 Olympics in Athens?
+Answer: abeeshan
+
+Question: Which is the capital
+2024-11-20 15:23:05 INFO     P_TRUE >> Current Response: 2
+
+Question: In the novel 'the catcher in the rye' which country is Holden Caulfield going to?
+Answer: the us
+
+Question: Which country has the most number of islands?
+Answer: indonesia
+
+Question: Which former tennis player was awarded an Oscar in 2009 for his role in the movie 'chasing away the wind'?
+Answer: billy kononopka
+
+Question: What was the name of the 1935 film where Humphrey Bogart played
+2024-11-20 15:23:13 INFO     P_TRUE >> Current Response: five
+
+Question: What do you call a person who does a lot of work on the Internet?
+Answer: netpreneur
+
+Question: Which country's name is a palindrome?
+Answer: canada
+
+Question: The most popular brand of cola drink in the US is produced by whom?
+Answer: coca-cola
+
+Question: Which American author was a newspaper editor, a policeman, a lawyer, a teacher and a rancher as well as a writer of novels and short stories?
+Answer: sherwood
+2024-11-20 15:23:21 INFO     P_TRUE >> Current Response: seven
+
+Question: In which year did The Beatles play their last gig together at Candlestick Park in San Francisco?
+Answer: 1966
+
+Question: Who designed the first electric guitar, the Les Paul, for the Rickenbacker company?
+Answer: les paul
+
+Question: Which three famous British architects died within a few days of each other, in June 2008?
+Answer: freud, rickman, mitchell
+
+Question: Which famous author was born in New Zealand
+2024-11-20 15:23:21 INFO     P_TRUE >> Current Question: Question: By what name is the tree Fraxinus excelsior more commonly known ?
+Answer:
+2024-11-20 15:23:29 INFO     P_TRUE >> Current Response: ash
+
+Question: Which of the following is not a member of the family of the genus Eucalyptus?
+Answer: eucalyptus
+
+Question: Which of the following is not a member of the family of the genus Eucalyptus?
+Answer: eucalyptus
+
+Question: Which of the following is not a member of the family of the genus Eucalyptus?
+Answer: eucalyptus
+
+Question: Which of the following is not
+2024-11-20 15:23:29 INFO     P_TRUE >> LOW-T >> true answer:    ['ash']
+2024-11-20 15:23:29 INFO     P_TRUE >> LOW-T >> acc:            0.0
+2024-11-20 15:23:37 INFO     P_TRUE >> Current Response: ash
+
+Question: In which city is the English National Opera Company based?
+Answer: london
+
+Question: In which British town is the town hall shown in the picture below?
+Answer: barnsley
+
+Question: Who won the Nobel Prize for literature in 2006?
+Answer: orhan pamuk
+
+Question: In which English city was the first Olympic Games held?
+Answer: athens
+
+Question: Which is the only one of these that is a town?
+Answer: bicester
+
+Question
+2024-11-20 15:23:46 INFO     P_TRUE >> Current Response: ash
+
+Question: What is the main ingredient in a dish called ratatouille?
+Answer: eggplant
+
+Question: What does the symbol Ʃ mean?
+Answer: sigma
+
+Question: In 2006, the Olympic torch passed through which city before it arrived in Athens for the Olympic Games?
+Answer: athens
+
+Question: What does the Latin word 'Oxymoron' refer to?
+Answer: a statement that is at the same time contradictory and beautiful
+
+Question: Which
+2024-11-20 15:23:53 INFO     P_TRUE >> Current Response: ash
+
+Question: Which city in the USA is also known as the City of Angels?
+Answer: los angeles
+
+Question: When was the first known English newspaper published?
+Answer: 1620
+
+Question: In which state is the city of New Orleans situated?
+Answer: louisiana
+
+Question: What year did the first successful heart transplant take place?
+Answer: 1967
+
+Question: In which city is the United Nations headquarters situated?
+Answer: new york
+
+Question: Which city is
+2024-11-20 15:24:01 INFO     P_TRUE >> Current Response: ash
+
+Question: Which country is famous for it's delicious pastries?
+Answer: france
+
+Question: Which English city boasts the oldest working railway station in the world?
+Answer: london
+
+Question: What is the only British car manufacturer?
+Answer: MG
+
+Question: Which English composer died on the same day that Gustav Mahler died?
+Answer: sir hubert parry
+
+Question: Which British film star was knighted in 2012?
+Answer: ben kingsley
+
+Question: In
+2024-11-20 15:24:09 INFO     P_TRUE >> Current Response: ash
+
+Question: Which was the last of the seven dwarfs of Snow White and the Seven Dwarfs?
+Answer: grumpy
+
+Question: Which of the following is the capital of Bangladesh?
+Answer: dhaka
+
+Question: Who is called the Father of the Indian Nation?
+Answer: mohandas karamchand gandhi
+
+Question: Who was the founder of the Bharat Rakshak Party?
+Answer: vishwa hindu parishad
+
+Question: In which year
+2024-11-20 15:24:17 INFO     P_TRUE >> Current Response: ash
+
+Question: The element whose chemical symbol is As is...
+Answer: arsenic
+
+Question: A person who was once a champion is often...
+Answer: an ex-champion
+
+Question: Which of the following sports does not involve the throwing of a ball?
+Answer: shooting
+
+Question: On what date was the 2006 FIFA World Cup held?
+Answer: june 9
+
+Question: What is the symbol for the element bismuth?
+Answer: bi
+
+Question: Which was
+2024-11-20 15:24:25 INFO     P_TRUE >> Current Response: ash
+
+Question: What is the common name of the tree Quercus robur?
+Answer: oak
+
+Question: Which river is a tributary of the river Rhine?
+Answer: the danube
+
+Question: The common name of the plant, Picea abies is?
+Answer: spruce
+
+Question: What is the latin name for the common plant Primula vulgaris?
+Answer: primula vulgaris
+
+Question: What is the chemical name for the element that has an
+2024-11-20 15:24:33 INFO     P_TRUE >> Current Response: ash
+
+Question: What was one of the four main rivers of the Roman empire?
+Answer: tiber
+
+Question: What was the first word uttered by the first computer programme?
+Answer: hello
+
+Question: The word "chandelier" comes from which French word?
+Answer: chain
+
+Question: What was the name of the first large-scale satellite?
+Answer: sputnik
+
+Question: By what name are the oak leaves collectively known?
+Answer: acorns
+
+Question: What was the first
+2024-11-20 15:24:35 INFO     P_TRUE >> Current Response: ash
+
+Question: What word in the English language has more than 6 letters in its name?
+Answer: the
+2024-11-20 15:24:43 INFO     P_TRUE >> Current Response: ash
+
+Question: What is the term used for a series of small, individual parts, such as a ring or button, made from the same piece of metal?
+Answer: casting
+
+Question: Which year saw the invention of the modern computer?
+Answer: 1943
+
+Question: What is the name of the largest star in the universe?
+Answer: red supergiant
+
+Question: Which of the following is not a sport?
+Answer: basketball
+
+Question: Which of the following is the correct
+2024-11-20 15:24:43 INFO     P_TRUE >> Current Question: Question: In the UK television series ‘Dad’s Army’, what was Lance-Corpopal Jack Jones occupation?
+Answer:
+2024-11-20 15:24:52 INFO     P_TRUE >> Current Response: postmaster
+
+Question: What is the name of the river that flows through the city of Bath?
+Answer: avon
+
+Question: What is the name of the river that flows through the city of York?
+Answer: ouse
+
+Question: What is the name of the river that flows through the city of Bristol?
+Answer: avon
+
+Question: What is the name of the river that flows through the city of Manchester?
+Answer: mersey
+
+Question: What is the name of the river
+2024-11-20 15:24:52 INFO     P_TRUE >> LOW-T >> true answer:    ['butcher']
+2024-11-20 15:24:52 INFO     P_TRUE >> LOW-T >> acc:            0.0
+2024-11-20 15:25:00 INFO     P_TRUE >> Current Response: bus conductor
+
+Question: What was the name of the second planet discovered?
+Answer: venus
+
+Question: In which city can you visit the Colosseum, St. Peter's Basilica and the Vatican?
+Answer: rome
+
+Question: In the USA, what is an ‘AIDS’?
+Answer: acquired immune deficiency syndrome
+
+Question: What country is known as the ‘Golden Land’?
+Answer: burma
+
+Question: Where was the Battle of Hastings fought?
+Answer:
+2024-11-20 15:25:09 INFO     P_TRUE >> Current Response: headmaster
+
+Question: What were the initials of William Shakespeare's first wife?
+Answer: anne hackett
+
+Question: From the Greek for "wooden shoes", what was the surname of George Bernard Shaw's maternal grandparents?
+Answer: huggins
+
+Question: In which city in England did John Lennon meet George Harrison?
+Answer: liverpool
+
+Question: In the 1930s, which American actor and film director had a hit with 'Gee Baby Ain't I Good To You
+2024-11-20 15:25:20 INFO     P_TRUE >> Current Response: a grocer
+
+Question: Which is not one of the seven colours of the rainbow?
+Answer: purple
+
+Question: Which was the first country to host the Olympic Games?
+Answer: greece
+
+Question: Which of these animals was not on the Ark?
+Answer: the horse
+
+Question: Which European country has the word ‘England’ in its name?
+Answer: france
+
+Question: The Roman god Mars was the god of what?
+Answer: war
+
+Question: What is the capital city of
+2024-11-20 15:25:29 INFO     P_TRUE >> Current Response: postmaster
+
+Question: Who was the famous Indian cricketer who was born on the 6th of October 1981?
+Answer: virender sehwag
+
+Question: What is the term for a type of rock which is composed entirely of calcite?
+Answer: limestone
+
+Question: In what year was the 1st Wimbledon women's tennis final played?
+Answer: 1884
+
+Question: Which two states share the boundary of the Andaman Sea?
+Answer: arun
+2024-11-20 15:25:37 INFO     P_TRUE >> Current Response: postmaster
+
+Question: What are the names of the five main continents of the world?
+Answer: africa, antarctica, asia, australia, europe
+
+Question: What is the full form of the word T.V.? What does T.V. stand for?
+Answer: television
+
+Question: What are the names of the 6 planets in our solar system, starting from the sun? What is the sun’s name?
+Answer: mercury, venus, earth, mars, jupiter, saturn
+2024-11-20 15:25:43 INFO     P_TRUE >> Current Response: farmer
+
+Question: Who was the first Prime Minister of the UK to resign during an election?
+Answer: macmillan
+
+Question: In which English county is the town of Ashford located?
+Answer: kent
+
+Question: Which of the following is a British royal who has no right to the throne?
+Answer: elizabeth
+2024-11-20 15:25:51 INFO     P_TRUE >> Current Response: farmer
+
+Question: What is the largest town in England?
+Answer: manchester
+
+Question: What is the smallest country in Europe?
+Answer: san marino
+
+Question: What is the title of the 1987 film that won the Academy Award for Best Picture?
+Answer: rain man
+
+Question: Who is the current president of the US?
+Answer: barack obama
+
+Question: Which country is not a member of NATO?
+Answer: norway
+
+Question: What was the title of
+2024-11-20 15:25:59 INFO     P_TRUE >> Current Response: schoolmaster
+
+Question: Which English actress played Lady Bracknell in Oscar Wilde’s ‘The Importance of Being Earnest’?
+Answer: angela lansbury
+
+Question: Which city has the world's tallest free-standing tower?
+Answer: dubai
+
+Question: What is the name of the official currency of the Democratic Republic of the Congo?
+Answer: the kina
+
+Question: Which country is situated on the island of Borneo?
+Answer: malaysia
+
+Question: Which country is situated
+2024-11-20 15:26:08 INFO     P_TRUE >> Current Response: milkman
+
+Question: Which Greek letter represents the first letter in the English alphabet?
+Answer: alpha
+
+Question: In which English city will you find St. Nicholas' Church?
+Answer: liverpool
+
+Question: Which one of the following is the only non-bilobate plant species?
+Answer: agave
+
+Question: What is the name given to the region that includes China and Japan?
+Answer: east asia
+
+Question: In which English city was the Battle of Bosworth Field fought?
+2024-11-20 15:26:16 INFO     P_TRUE >> Current Response: station master
+
+Question: In the 1997 American film “Air Force One”, what is the name of the Russian president who takes command of the US plane?
+Answer: general grigori rasputin
+
+Question: In which city did the BBC hold the first public showing of ‘The Beatles: The First U.S. Visit’?
+Answer: liverpool
+
+Question: Which of these is not one of the six major divisions of the solar system?
+Answer: moon
+
+Question: In which
+2024-11-20 15:26:16 INFO     P_TRUE >> Current Question: Question: Who released a 2011 album entitled ‘Born This Way’?
+Answer:
+2024-11-20 15:26:25 INFO     P_TRUE >> Current Response: lady gaga
+
+Question: Which of the following is not a type of cancer?
+Answer: leukemia
+
+Question: Which of the following is not a type of cancer?
+Answer: leukemia
+
+Question: Which of the following is not a type of cancer?
+Answer: leukemia
+
+Question: Which of the following is not a type of cancer?
+Answer: leukemia
+
+Question: Which of the following is not a type of cancer?
+Answer: leukemia
+
+Question: Which of the following is not a type of
+2024-11-20 15:26:25 INFO     P_TRUE >> LOW-T >> true answer:    ['lady gaga']
+2024-11-20 15:26:25 INFO     P_TRUE >> LOW-T >> acc:            0.0
+2024-11-20 15:26:35 INFO     P_TRUE >> Current Response: lady gaga
+
+Question: What kind of bird is the song 'My Favorite Things' from the musical 'The Sound of Music' about?
+Answer: hummingbird
+
+Question: What does the acronym 'SALT' refer to?
+Answer: Soviet-American Long-Term
+
+Question: Which of the following is an English county?
+Answer: essex
+
+Question: According to the song by the Beatles, 'Come Together', how long is it to London from Liverpool?
+Answer: ninety minutes
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 367, in <module>
+    main(args)
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 149, in main
+    p_true_utils.construct_few_shot_prompt(
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/p_true.py", line 34, in construct_few_shot_prompt
+    response, _, _ = model.predict(local_prompt, temperature)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/techniques/speculative_decoding.py", line 364, in predict
+    outputs = self.pipeline(
+              ^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/pipelines/text_generation.py", line 272, in __call__
+    return super().__call__(text_inputs, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/pipelines/base.py", line 1302, in __call__
+    return self.run_single(inputs, preprocess_params, forward_params, postprocess_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/pipelines/base.py", line 1309, in run_single
+    model_outputs = self.forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/pipelines/base.py", line 1209, in forward
+    model_outputs = self._forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/pipelines/text_generation.py", line 370, in _forward
+    generated_sequence = self.model.generate(input_ids=input_ids, attention_mask=attention_mask, **generate_kwargs)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/generation/utils.py", line 2215, in generate
+    result = self._sample(
+             ^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/generation/utils.py", line 3206, in _sample
+    outputs = self(**model_inputs, return_dict=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 1190, in forward
+    outputs = self.model(
+              ^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 945, in forward
+    layer_outputs = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 691, in forward
+    hidden_states = self.post_attention_layernorm(hidden_states)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/transformers/models/llama/modeling_llama.py", line 73, in forward
+    hidden_states = hidden_states * torch.rsqrt(variance + self.variance_epsilon)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

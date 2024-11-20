@@ -1,0 +1,18 @@
+{"time":"2024-11-19T18:59:12.189436+01:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2024-11-19T18:59:12.18951+01:00","level":"INFO","msg":"created symlink","path":"darius/uncertainty/wandb/run-20241119_185912-rln8igcy/logs/debug-core.log"}
+{"time":"2024-11-19T18:59:12.304227+01:00","level":"INFO","msg":"created new stream","id":"rln8igcy"}
+{"time":"2024-11-19T18:59:12.304263+01:00","level":"INFO","msg":"stream: started","id":"rln8igcy"}
+{"time":"2024-11-19T18:59:12.304278+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"rln8igcy"}
+{"time":"2024-11-19T18:59:12.304314+01:00","level":"INFO","msg":"handler: started","stream_id":"rln8igcy"}
+{"time":"2024-11-19T18:59:12.304294+01:00","level":"INFO","msg":"sender: started","stream_id":"rln8igcy"}
+{"time":"2024-11-19T18:59:12.745137+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-11-19T18:59:57.404191+01:00","level":"INFO","msg":"stream: closing","id":"rln8igcy"}
+{"time":"2024-11-19T18:59:57.404234+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-11-19T18:59:57.421194+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-11-19T18:59:57.666665+01:00","level":"WARN","msg":"No program path found, not creating job artifact. See https://docs.wandb.ai/guides/launch/create-job"}
+{"time":"2024-11-19T18:59:57.666697+01:00","level":"INFO","msg":"sender: sendDefer: no job artifact to save"}
+{"time":"2024-11-19T18:59:58.2988+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-11-19T18:59:58.91307+01:00","level":"INFO","msg":"handler: closed","stream_id":"rln8igcy"}
+{"time":"2024-11-19T18:59:58.913091+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":"rln8igcy"}
+{"time":"2024-11-19T18:59:58.9131+01:00","level":"INFO","msg":"sender: closed","stream_id":"rln8igcy"}
+{"time":"2024-11-19T18:59:58.913422+01:00","level":"INFO","msg":"stream: closed","id":"rln8igcy"}

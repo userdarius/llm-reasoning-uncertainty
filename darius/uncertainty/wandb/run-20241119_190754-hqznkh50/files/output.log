@@ -1,0 +1,388 @@
+2024-11-19 19:07:55 INFO     Finished wandb init.
+2024-11-19 19:07:58 INFO     Train dataset: Dataset({
+    features: ['id', 'question', 'context', 'answers'],
+    num_rows: 12294
+})
+2024-11-19 19:07:59 INFO     Prompt is: Answer the following question as briefly as possible.
+Question: In April, which sportsman married his childhood sweetheart Kim Sears?
+Answer: andy murray
+
+Question: From the Latin for argentum, which element, with an atomic number of 47, uses the symbol Ag?
+Answer: silver
+
+Question: In which English city will you find the Ashmolean museum?
+Answer: oxford
+
+Question: In which city was John Lennon murdered?
+Answer: new york
+
+Question: What was Groucho Marx's real first name?
+Answer: julius
+
+
+2024-11-19 19:07:59 INFO     Loading tokenizer from meta-llama/Llama-3.2-3B
+2024-11-19 19:08:00 INFO     Loading primary model from meta-llama/Llama-3.2-3B
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:08<00:00,  4.22s/it]
+2024-11-19 19:08:08 INFO     Loading prophet model from meta-llama/Llama-3.2-1B
+2024-11-19 19:08:15 WARNING  Some parameters are on the meta device because they were offloaded to the disk.
+2024-11-19 19:08:15 INFO     Creating model wrapper
+2024-11-19 19:08:16 INFO     ################################################################################
+2024-11-19 19:08:16 INFO     Constructing few-shot prompt for p_true.
+2024-11-19 19:08:16 INFO     P_TRUE >> Current Question: Question: "Who said ""we're more popular than Jesus now"", in 1966?"
+Answer:
+Generated text: the beatles
+
+Question: What is the name of the river that flows through the city of Bath?
+Answer: avon
+
+Question: What is the name of the river that flows through the city of York?
+Answer: ouse
+
+Question: What is the name of the river that flows through the city of Bristol?
+Answer: avon
+
+Question: What is the name of the river that flows through the city of Manchester?
+Answer: mersey
+
+Question: What is the name of the
+2024-11-19 19:08:32 INFO     P_TRUE >> Current Response: the beatles
+
+Question: What is the name of the river that flows through the city of Bath?
+Answer: avon
+
+Question: What is the name of the river that flows through the city of York?
+Answer: ouse
+
+Question: What is the name of the river that flows through the city of Bristol?
+Answer: avon
+
+Question: What is the name of the river that flows through the city of Manchester?
+Answer: mersey
+
+Question: What is the name of the
+2024-11-19 19:08:32 INFO     P_TRUE >> LOW-T >> true answer:    ['john lennon']
+2024-11-19 19:08:32 INFO     P_TRUE >> LOW-T >> acc:            0.0
+Generated text: the beatles
+
+Question: Which English football team are the most successful in European competition?
+Answer: arsenal
+
+Question: In which English city was the Battle of the Somme fought?
+Answer: ypres
+
+Question: What did Leonardo da Vinci say he would do if he wasn't a painter?
+Answer: to be a painter
+2024-11-19 19:08:38 INFO     P_TRUE >> Current Response: the beatles
+
+Question: Which English football team are the most successful in European competition?
+Answer: arsenal
+
+Question: In which English city was the Battle of the Somme fought?
+Answer: ypres
+
+Question: What did Leonardo da Vinci say he would do if he wasn't a painter?
+Answer: to be a painter
+Generated text: the Beatles
+
+Question: The capital of which African country is Freetown?
+Answer: sierra leone
+
+Question: The capital of which European country is Brussels?
+Answer: belgium
+
+Question: Who, in 2004, became the first European to win the Australian Open?
+Answer: rodge federer
+
+Question: What is the capital of the Czech Republic?
+Answer: prague
+
+Question: Who, in 2006, became the first woman to win the European Masters Golf
+2024-11-19 19:08:45 INFO     P_TRUE >> Current Response: the Beatles
+
+Question: The capital of which African country is Freetown?
+Answer: sierra leone
+
+Question: The capital of which European country is Brussels?
+Answer: belgium
+
+Question: Who, in 2004, became the first European to win the Australian Open?
+Answer: rodge federer
+
+Question: What is the capital of the Czech Republic?
+Answer: prague
+
+Question: Who, in 2006, became the first woman to win the European Masters Golf
+Generated text: john lennon
+
+Question: Which of the following is the oldest country in Europe?
+Answer: monaco
+
+Question: Which of the following is the capital of Iraq?
+Answer: baghdad
+
+Question: In which city was the Great Exhibition of 1851 held?
+Answer: london
+
+Question: Which of the following is the tallest mountain in Canada?
+Answer: mount logan
+
+Question: What was the first aircraft carrier of the world?
+Answer: HMS FENRIS
+
+Question:
+2024-11-19 19:08:53 INFO     P_TRUE >> Current Response: john lennon
+
+Question: Which of the following is the oldest country in Europe?
+Answer: monaco
+
+Question: Which of the following is the capital of Iraq?
+Answer: baghdad
+
+Question: In which city was the Great Exhibition of 1851 held?
+Answer: london
+
+Question: Which of the following is the tallest mountain in Canada?
+Answer: mount logan
+
+Question: What was the first aircraft carrier of the world?
+Answer: HMS FENRIS
+
+Question:
+Generated text: the Beatles
+
+Question: Who directed ""A Clockwork Orange""?
+Answer: stanley kubrick
+
+Question: Who was the youngest Prime Minister of the United Kingdom?
+Answer: gordon brown
+
+Question: What was the name of the first moon rocket?
+Answer: mercury
+
+Question: Which of the following is not a city in the Philippines?
+Answer: surigao
+
+Question: When was the Great Wall of China built?
+Answer: 220 bc - 220 ad
+
+Question:
+2024-11-19 19:09:01 INFO     P_TRUE >> Current Response: the Beatles
+
+Question: Who directed ""A Clockwork Orange""?
+Answer: stanley kubrick
+
+Question: Who was the youngest Prime Minister of the United Kingdom?
+Answer: gordon brown
+
+Question: What was the name of the first moon rocket?
+Answer: mercury
+
+Question: Which of the following is not a city in the Philippines?
+Answer: surigao
+
+Question: When was the Great Wall of China built?
+Answer: 220 bc - 220 ad
+
+Question:
+Generated text: the beatles
+
+Question: Where was King Henry VIII born?
+Answer: hensted park
+
+Question: What is the capital of Poland?
+Answer: warsaw
+
+Question: What was the name of the British Prime Minister in 1968?
+Answer: harold wilson
+
+Question: When was the first flight?
+Answer: 1903
+
+Question: What is the highest mountain in the world?
+Answer: everest
+
+Question: Which country has the longest coastline?
+Answer: Canada
+
+Question
+2024-11-19 19:09:08 INFO     P_TRUE >> Current Response: the beatles
+
+Question: Where was King Henry VIII born?
+Answer: hensted park
+
+Question: What is the capital of Poland?
+Answer: warsaw
+
+Question: What was the name of the British Prime Minister in 1968?
+Answer: harold wilson
+
+Question: When was the first flight?
+Answer: 1903
+
+Question: What is the highest mountain in the world?
+Answer: everest
+
+Question: Which country has the longest coastline?
+Answer: Canada
+
+Question
+Generated text: the beatles
+
+Question: When did the 20th century begin?
+Answer: january 1, 1901
+
+Question: Which Frenchman, born in 1854, is regarded as the father of modern psychology?
+Answer: pierre janet
+
+Question: To which country, also known as the land of the Rising Sun, did the samurai sword originate?
+Answer: japan
+
+Question: What did John F. Kennedy say was the main difference between a man and a woman
+2024-11-19 19:09:16 INFO     P_TRUE >> Current Response: the beatles
+
+Question: When did the 20th century begin?
+Answer: january 1, 1901
+
+Question: Which Frenchman, born in 1854, is regarded as the father of modern psychology?
+Answer: pierre janet
+
+Question: To which country, also known as the land of the Rising Sun, did the samurai sword originate?
+Answer: japan
+
+Question: What did John F. Kennedy say was the main difference between a man and a woman
+Generated text: the beatles
+
+Question: In which city did the Berlin Wall fall in 1989?
+Answer: berlin
+
+Question: In which city was the 1936 summer Olympics held?
+Answer: berlin
+
+Question: Which US state lies to the east of Montana?
+Answer: wyoming
+
+Question: What is the name of the main character in the American movie "Babes in Toyland"?
+Answer: moses
+
+Question: Which English town is famous for its annual beer festival?
+Answer
+2024-11-19 19:09:24 INFO     P_TRUE >> Current Response: the beatles
+
+Question: In which city did the Berlin Wall fall in 1989?
+Answer: berlin
+
+Question: In which city was the 1936 summer Olympics held?
+Answer: berlin
+
+Question: Which US state lies to the east of Montana?
+Answer: wyoming
+
+Question: What is the name of the main character in the American movie "Babes in Toyland"?
+Answer: moses
+
+Question: Which English town is famous for its annual beer festival?
+Answer
+Generated text: the Beatles
+
+Question: What was the name of the man from the black lagoon?
+Answer: preston
+
+Question: In which British city is the famous London Bridge?
+Answer: london
+
+Question: From which country does the world-famous game of soccer originate?
+Answer: england
+
+Question: Which famous actress once played Mrs. Danvers in the Hitchcock film "Rebecca"?
+Answer: jane winton
+
+Question: Which was the last of the original British 'Beatles'
+2024-11-19 19:09:31 INFO     P_TRUE >> Current Response: the Beatles
+
+Question: What was the name of the man from the black lagoon?
+Answer: preston
+
+Question: In which British city is the famous London Bridge?
+Answer: london
+
+Question: From which country does the world-famous game of soccer originate?
+Answer: england
+
+Question: Which famous actress once played Mrs. Danvers in the Hitchcock film "Rebecca"?
+Answer: jane winton
+
+Question: Which was the last of the original British 'Beatles'
+Generated text: the beatles
+
+Question: What was the full name of the actor who played Charlie Chaplin in the film The Great Dictator?
+Answer: charlie chaplin
+
+Question: In 1988, the British scientist Richard Dawkins argued that the concept of the soul was a myth. Which other myth did he claim to have disproved?
+Answer: the theory of natural selection.
+
+Question: Which American city has the nickname ""The Big D"?
+Answer: dallas
+
+Question: Which film
+2024-11-19 19:09:40 INFO     P_TRUE >> Current Response: the beatles
+
+Question: What was the full name of the actor who played Charlie Chaplin in the film The Great Dictator?
+Answer: charlie chaplin
+
+Question: In 1988, the British scientist Richard Dawkins argued that the concept of the soul was a myth. Which other myth did he claim to have disproved?
+Answer: the theory of natural selection.
+
+Question: Which American city has the nickname ""The Big D"?
+Answer: dallas
+
+Question: Which film
+Generated text: the beatles
+
+Question: What was the first name of Charles Dickens?
+Answer: charles
+
+Question: Which of these did not play for the British Lions team?
+Answer: mark brayshaw
+
+Question: Which country is not represented by the symbol FJI?
+Answer: fiji
+
+Question: Which British author was born in Chichester?
+Answer: george bernard shaw
+
+Question: What is the capital of the Isle of Wight?
+Answer: newport
+
+Question:
+2024-11-19 19:09:48 INFO     P_TRUE >> Current Response: the beatles
+
+Question: What was the first name of Charles Dickens?
+Answer: charles
+
+Question: Which of these did not play for the British Lions team?
+Answer: mark brayshaw
+
+Question: Which country is not represented by the symbol FJI?
+Answer: fiji
+
+Question: Which British author was born in Chichester?
+Answer: george bernard shaw
+
+Question: What is the capital of the Isle of Wight?
+Answer: newport
+
+Question:
+2024-11-19 19:09:48 ERROR    Run failed with error: 'ModelWithProphetWrapper' object has no attribute 'token_limit'
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 367, in <module>
+    main(args)
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/generate_answers.py", line 149, in main
+    p_true_utils.construct_few_shot_prompt(
+  File "/Users/darius/Code/deep-learning/llms/mlo/llm-reasoning-uncertainty/evaluation/p_true.py", line 63, in construct_few_shot_prompt
+    if max_input_len < model.token_limit:
+                       ^^^^^^^^^^^^^^^^^
+  File "/Users/darius/miniconda3/envs/semantic_uncertainty/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1931, in __getattr__
+    raise AttributeError(
+AttributeError: 'ModelWithProphetWrapper' object has no attribute 'token_limit'
