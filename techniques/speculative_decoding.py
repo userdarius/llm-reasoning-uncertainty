@@ -303,13 +303,15 @@ class ModelWithProphetWrapper(Module):
         self.model = model
         self.prophet = prophet
         self.tokenizer = tokenizer
-        
+
         # Get device from model
         self.device = next(model.parameters()).device
-        
+
         # Setup token limit from model config or default
-        self.token_limit = getattr(model.config, 'max_position_embeddings', 4096)  # Default for LLaMA
-        
+        self.token_limit = getattr(
+            model.config, "max_position_embeddings", 4096
+        )  # Default for LLaMA
+
         # Setup pipeline
         self.pipeline = pipeline(
             "text-generation",
@@ -319,16 +321,16 @@ class ModelWithProphetWrapper(Module):
             return_full_text=False,
             pad_token_id=tokenizer.eos_token_id if tokenizer else None,
         )
-        
+
         # Get max_new_tokens from model config or use default
         self.max_new_tokens = min(
             getattr(model.config, "max_new_tokens", 100),
-            self.token_limit - 1  # Leave room for at least 1 input token
+            self.token_limit - 1,  # Leave room for at least 1 input token
         )
-        
+
         # Get model dimensions from config
-        model_dim = getattr(model.config, 'hidden_size', None)
-        prophet_dim = getattr(prophet.config, 'hidden_size', None)
+        model_dim = getattr(model.config, "hidden_size", None)
+        prophet_dim = getattr(prophet.config, "hidden_size", None)
 
         if model_dim is None or prophet_dim is None:
             raise ValueError("Could not determine model dimensions from config.")
@@ -357,9 +359,9 @@ class ModelWithProphetWrapper(Module):
                 f"Input length {input_ids.shape[1]} exceeds token limit {self.token_limit}. Truncating..."
             )
             # Truncate from the left since that's usually less important for completion
-            input_ids = input_ids[:, -self.token_limit:]
+            input_ids = input_ids[:, -self.token_limit :]
             prompt = self.tokenizer.decode(input_ids[0])
-        
+
         # Use pipeline for text generation
         outputs = self.pipeline(
             prompt,
@@ -369,30 +371,28 @@ class ModelWithProphetWrapper(Module):
             return_full_text=False,
         )
         generated_text = outputs[0]["generated_text"].strip()
-        
+
         # Get logprobs and embeddings directly from model
         inputs = self.tokenizer(prompt + generated_text, return_tensors="pt").to(
             self.device
         )
-        
+
         with torch.no_grad():
             model_outputs = self.model(
-                **inputs,
-                output_hidden_states=True,
-                return_dict=True
+                **inputs, output_hidden_states=True, return_dict=True
             )
-            
+
             # Get logprobs
             logits = model_outputs.logits
             logprobs = torch.nn.functional.log_softmax(logits, dim=-1)
-            
+
             # Get embeddings from last hidden state
             embeddings = model_outputs.hidden_states[-1]
-            
+
             # Only keep the embeddings for the generated text part
             prompt_length = len(self.tokenizer(prompt)["input_ids"])
             embeddings = embeddings[:, prompt_length:, :]
-        
+
         return generated_text, logprobs, embeddings
 
     def forward(self, x):
@@ -446,6 +446,12 @@ class ModelWithProphetWrapper(Module):
         total_loss = total_loss + prophet_loss
 
         return total_loss, (main_loss, prophet_loss)
+
+    def get_p_true(self, prompt):
+        """Get log probability of the answer being true."""
+        response, token_log_likelihoods, _ = self.predict(prompt, temperature=0.1)
+        response = response.strip().upper()
+        return 0.0 if "A" in response else float("-inf")
 
 
 # speculative decoding functions
