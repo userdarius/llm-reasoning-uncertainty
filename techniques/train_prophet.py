@@ -9,7 +9,6 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, AdamW
 from datasets import load_dataset
 
 from speculative_decoding import (
-    Decoder,
     ModelWithProphetWrapper,
     base_decoding,
     speculative_decoding_with_prophet_model,
@@ -72,14 +71,14 @@ def benchmark(fn):
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load model and tokenizer from hf
-model_name = "meta-llama/Llama-3.1-8B"
+model_name = "meta-llama/Llama-3.2-3B"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 llama_model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
 
 model = llama_model
 
-# TODO : prophet model is identical to the main model in this example -> find smaller model to accelerate inference
-prophet_model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
+# Prophet model is a smaller version of the main model
+prophet_model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-1B").to(device)
 
 # Wrap the models for speculative decoding
 model_and_prophet = ModelWithProphetWrapper(
@@ -172,3 +171,8 @@ for i in tqdm.tqdm(range(NUM_BATCHES), mininterval=10.0, desc="training"):
         print(f"Base Decoding Time: {base_decode_elapsed:.3f} ms\n")
         print(f"Speculative Decoding Time: {spec_decode_elapsed:.3f} ms\n")
         print(f"Average Number of Accepted Tokens: {num_accepted:.1f} / {GAMMA}\n")
+
+
+# save the model's weights
+torch.save(llama_model.state_dict(), "../weights/llama_model.pth")
+torch.save(prophet_model.state_dict(), "../weights/prophet_model.pth")

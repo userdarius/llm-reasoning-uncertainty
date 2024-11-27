@@ -25,8 +25,24 @@ from .compute_uncertainty_measures import main as main_compute
 
 utils.setup_logger()
 
+# Define paths to the saved model weights
+primary_model_weights_path = "../weights/llama_model.pth"
+prophet_model_weights_path = "../weights/prophet_model.pth"
+
+def validate_paths():
+    if not os.path.exists(primary_model_weights_path):
+        logging.error(f"Primary model weights not found at {primary_model_weights_path}")
+        raise FileNotFoundError(f"Primary model weights not found at {primary_model_weights_path}")
+
+    if not os.path.exists(prophet_model_weights_path):
+        logging.error(f"Prophet model weights not found at {prophet_model_weights_path}")
+        raise FileNotFoundError(f"Prophet model weights not found at {prophet_model_weights_path}")
+
+    logging.info("Model weight paths are valid.")
 
 def main(args):
+    # Validate paths before proceeding
+    validate_paths()
 
     # Setup run.
     if args.dataset == "svamp":
@@ -122,6 +138,9 @@ def main(args):
         pad_token_id=tokenizer.pad_token_id,
     ).eval()
 
+    # Load the saved weights into the primary model
+    primary_model.load_state_dict(torch.load(primary_model_weights_path))
+
     prophet_name = "meta-llama/Llama-3.2-1B"
     logging.info(f"Loading prophet model from {prophet_name}")
     prophet_model = AutoModelForCausalLM.from_pretrained(
@@ -130,6 +149,9 @@ def main(args):
         torch_dtype=torch.float16,
         pad_token_id=tokenizer.pad_token_id,
     ).eval()
+
+    # Load the saved weights into the prophet model
+    prophet_model.load_state_dict(torch.load(prophet_model_weights_path))
 
     logging.info("Creating model wrapper")
     model = ModelWithProphetWrapper(
