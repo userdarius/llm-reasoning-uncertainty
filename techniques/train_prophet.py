@@ -14,18 +14,17 @@ from .speculative_decoding import (
     speculative_decoding_with_prophet_model,
 )
 
-
 import torch
 from torch.optim import Adam
 from torch.nn import functional as F
 from torch.cuda import synchronize, Event
 from torch.utils.data import DataLoader, Dataset
 
+from data_loader.data_utils import load_ds  # Import load_ds function
+
 timer = partial(Event, enable_timing=True)
 
-
 # constants
-
 NUM_BATCHES = int(1e5)
 BATCH_SIZE = 4
 GRAD_ACCUM_EVERY = 4
@@ -37,19 +36,14 @@ SEQ_LEN = 512
 GAMMA = 5
 TRAIN_PROPHET = True
 
-
 # helpers
-
-
 def cycle(loader):
     while True:
         for data in loader:
             yield data
 
-
 def decode_tokens(tokens):
     return tokenizer.decode(tokens, skip_special_tokens=True)
-
 
 def benchmark(fn):
     @wraps(fn)
@@ -67,7 +61,6 @@ def benchmark(fn):
 
     return inner
 
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load model and tokenizer from hf
@@ -78,9 +71,7 @@ llama_model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
 model = llama_model
 
 # Prophet model is a smaller version of the main model
-prophet_model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-1B").to(
-    device
-)
+prophet_model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-1B").to(device)
 
 # Wrap the models for speculative decoding
 model_and_prophet = ModelWithProphetWrapper(
@@ -91,10 +82,9 @@ model_and_prophet = ModelWithProphetWrapper(
     detach_model_embed_for_prophet=False,
 ).to(device)
 
-# Load a dataset from Hugging Face datasets library
-dataset_name = "huggingface/dataset"
-dataset = load_dataset(dataset_name, split="train")
-
+# Load datasets using load_ds function
+train_dataset, _ = load_ds("trivia_qa", seed=42)  # Use Trivia QA dataset
+# You can replace "trivia_qa" with other dataset names as needed
 
 class HuggingFaceDataset(Dataset):
     def __init__(self, dataset, tokenizer, seq_len):
@@ -104,9 +94,7 @@ class HuggingFaceDataset(Dataset):
         self.seq_len = seq_len
 
     def __getitem__(self, index):
-        text = self.dataset[index][
-            "text"
-        ]  # we assume that the dataset has a "text" column
+        text = self.dataset[index]["question"]  # Adjust based on dataset structure
         encoding = tokenizer(
             text,
             return_tensors="pt",
@@ -120,14 +108,12 @@ class HuggingFaceDataset(Dataset):
     def __len__(self):
         return len(self.dataset)
 
-
 # Instantiate the dataset and dataloader
-train_dataset = HuggingFaceDataset(dataset, tokenizer, SEQ_LEN)
+train_dataset = HuggingFaceDataset(train_dataset, tokenizer, SEQ_LEN)
 train_loader = cycle(DataLoader(train_dataset, batch_size=BATCH_SIZE))
 
 # optimizer
 params = model_and_prophet.parameters() if TRAIN_PROPHET else model.parameters()
-
 optim = AdamW(params, lr=LEARNING_RATE)
 
 # training
@@ -173,7 +159,6 @@ for i in tqdm.tqdm(range(NUM_BATCHES), mininterval=10.0, desc="training"):
         print(f"Base Decoding Time: {base_decode_elapsed:.3f} ms\n")
         print(f"Speculative Decoding Time: {spec_decode_elapsed:.3f} ms\n")
         print(f"Average Number of Accepted Tokens: {num_accepted:.1f} / {GAMMA}\n")
-
 
 # save the model's weights
 torch.save(llama_model.state_dict(), "weights/llama_model.pth")
