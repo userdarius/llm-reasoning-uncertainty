@@ -316,12 +316,18 @@ def split_dataset(dataset):
 
 
 def model_based_metric(predicted_answer, example, model):
+    logging.info("Computing model-based metric.")
+    logging.info("Predicted answer: %s", predicted_answer)
+    logging.info("Example ID: %s", example.get("id", "Unknown"))
+
     if "answers" in example:
         correct_answers = example["answers"]["text"]
     elif "reference" in example:
         correct_answers = example["reference"]["answers"]["text"]
     else:
-        raise ValueError
+        raise ValueError("Example does not contain 'answers' or 'reference'.")
+
+    logging.info("Correct answers: %s", correct_answers)
 
     prompt = f'We are assessing the quality of answers to the following question: {example["question"]}\n'
     if len(correct_answers) == 1:
@@ -340,21 +346,30 @@ def model_based_metric(predicted_answer, example, model):
 
     prompt += " Respond only with yes or no.\nResponse:"
 
+    logging.info("Prompt for model: %s", prompt)
+
     if "gpt" in model.model_name.lower():
         predicted_answer = model.predict(prompt, 0.01)
     else:
         predicted_answer, _, _ = model.predict(prompt, 0.01)
 
+    logging.info("Model response: %s", predicted_answer)
+
     if "yes" in predicted_answer.lower():
+        logging.info("Metric result: 1.0")
         return 1.0
     elif "no" in predicted_answer.lower():
+        logging.info("Metric result: 0.0")
         return 0.0
     else:
         logging.warning("Redo llm check.")
         predicted_answer, _, _ = model.predict(prompt, 1)
+        logging.info("Redo model response: %s", predicted_answer)
         if "yes" in predicted_answer.lower():
+            logging.info("Metric result after redo: 1.0")
             return 1.0
         elif "no" in predicted_answer.lower():
+            logging.info("Metric result after redo: 0.0")
             return 0.0
 
         logging.warning("Answer neither no nor yes. Defaulting to no!")
@@ -431,25 +446,30 @@ def get_make_prompt(args):
 
 
 def get_metric(metric):
+    logging.info("Getting metric function for: %s", metric)
     if metric == "squad":
         squad_metric = load("squad_v2")
 
         def metric(response, example, *args, **kwargs):
-            # Add numerical answer handling
+            logging.info("Computing SQuAD metric.")
+            logging.info("Response: %s", response)
+            logging.info("Example ID: %s", example.get("id", "Unknown"))
+
             try:
-                # Clean and convert response to number
                 response_num = int("".join(filter(str.isdigit, response)))
                 true_num = int(
                     "".join(filter(str.isdigit, example["answers"]["text"][0]))
                 )
 
-                # For exact numerical matches
+                logging.info("Numerical comparison: response_num=%d, true_num=%d", response_num, true_num)
+
                 if response_num == true_num:
+                    logging.info("Exact numerical match. Metric result: 1.0")
                     return 1.0
 
-                # If you want to fall back to squad metric for non-numerical answers
                 exid = example.get("id", example.get("reference", {}).get("id"))
                 if not exid:
+                    logging.warning("Example ID not found. Metric result: 0.0")
                     return 0.0
 
                 prediction = {
@@ -460,12 +480,14 @@ def get_metric(metric):
                 results = squad_metric.compute(
                     predictions=[prediction], references=[get_reference(example)]
                 )
+                logging.info("SQuAD metric results: %s", results)
                 return 1.0 if (results["f1"] >= 50.0) else 0.0
 
-            except (ValueError, IndexError):
-                # Fall back to original squad metric for non-numerical answers
+            except (ValueError, IndexError) as e:
+                logging.error("Error in numerical comparison: %s", str(e))
                 exid = example.get("id", example.get("reference", {}).get("id"))
                 if not exid:
+                    logging.warning("Example ID not found. Metric result: 0.0")
                     return 0.0
 
                 prediction = {
@@ -476,9 +498,9 @@ def get_metric(metric):
                 results = squad_metric.compute(
                     predictions=[prediction], references=[get_reference(example)]
                 )
+                logging.info("SQuAD metric results: %s", results)
                 return 1.0 if (results["f1"] >= 50.0) else 0.0
 
-    # Reuses the globally active model for these.
     elif metric == "llm":
         metric = llm_metric
     elif metric == "llm_gpt-3.5":
@@ -486,7 +508,7 @@ def get_metric(metric):
     elif metric == "llm_gpt-4":
         metric = get_gpt_metric(metric)
     else:
-        raise ValueError
+        raise ValueError(f"Unknown metric: {metric}")
 
     return metric
 
