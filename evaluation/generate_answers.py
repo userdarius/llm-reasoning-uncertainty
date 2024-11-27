@@ -26,8 +26,8 @@ from .compute_uncertainty_measures import main as main_compute
 utils.setup_logger()
 
 # Define paths to the saved model weights
-primary_model_weights_path = "../weights/llama_model.pth"
-prophet_model_weights_path = "../weights/prophet_model.pth"
+primary_model_weights_path = "weights/llama_model.pth"
+prophet_model_weights_path = "weights/prophet_model.pth"
 
 def validate_paths():
     if not os.path.exists(primary_model_weights_path):

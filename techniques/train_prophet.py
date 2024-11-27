@@ -174,5 +174,5 @@ for i in tqdm.tqdm(range(NUM_BATCHES), mininterval=10.0, desc="training"):
 
 
 # save the model's weights
-torch.save(llama_model.state_dict(), "../weights/llama_model.pth")
-torch.save(prophet_model.state_dict(), "../weights/prophet_model.pth")
+torch.save(llama_model.state_dict(), "weights/llama_model.pth")
+torch.save(prophet_model.state_dict(), "weights/prophet_model.pth")
