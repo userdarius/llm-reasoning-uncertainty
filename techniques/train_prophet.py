@@ -8,7 +8,7 @@ from functools import wraps, partial
 from transformers import AutoModelForCausalLM, AutoTokenizer, AdamW
 from datasets import load_dataset
 
-from speculative_decoding import (
+from .speculative_decoding import (
     ModelWithProphetWrapper,
     base_decoding,
     speculative_decoding_with_prophet_model,
@@ -78,7 +78,9 @@ llama_model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
 model = llama_model
 
 # Prophet model is a smaller version of the main model
-prophet_model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-1B").to(device)
+prophet_model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-1B").to(
+    device
+)
 
 # Wrap the models for speculative decoding
 model_and_prophet = ModelWithProphetWrapper(
