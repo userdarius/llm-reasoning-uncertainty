@@ -1,3 +1,4 @@
+import logging
 import gzip
 import random
 import tqdm
@@ -21,6 +22,12 @@ from torch.cuda import synchronize, Event
 from torch.utils.data import DataLoader, Dataset
 
 from data_loader.data_utils import load_ds  # Import load_ds function
+
+# Set up logging
+logging.basicConfig(
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    level=logging.INFO
+)
 
 timer = partial(Event, enable_timing=True)
 
@@ -65,6 +72,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load model and tokenizer from hf
 model_name = "meta-llama/Llama-3.2-3B"
+logging.info(f"Loading model and tokenizer from {model_name}")
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 llama_model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
 
@@ -83,8 +91,8 @@ model_and_prophet = ModelWithProphetWrapper(
 ).to(device)
 
 # Load datasets using load_ds function
-train_dataset, _ = load_ds("trivia_qa", seed=42)  # Use Trivia QA dataset
-# You can replace "trivia_qa" with other dataset names as needed
+logging.info("Loading Trivia QA dataset")
+train_dataset, _ = load_ds("trivia_qa", seed=42)
 
 class HuggingFaceDataset(Dataset):
     def __init__(self, dataset, tokenizer, seq_len):
@@ -117,6 +125,7 @@ params = model_and_prophet.parameters() if TRAIN_PROPHET else model.parameters()
 optim = AdamW(params, lr=LEARNING_RATE)
 
 # training
+logging.info("Starting training")
 for i in tqdm.tqdm(range(NUM_BATCHES), mininterval=10.0, desc="training"):
     model_and_prophet.train()
 
@@ -127,8 +136,7 @@ for i in tqdm.tqdm(range(NUM_BATCHES), mininterval=10.0, desc="training"):
 
         (total_loss / GRAD_ACCUM_EVERY).backward()
 
-    print(f"training loss: {loss.item():.3f}")
-    print(f"training prophet loss: {prophet_loss.item():.3f}")
+    logging.info(f"Batch {i}: training loss: {loss.item():.3f}, prophet loss: {prophet_loss.item():.3f}")
 
     torch.nn.utils.clip_grad_norm_(model_and_prophet.parameters(), 0.5)
 
@@ -141,7 +149,7 @@ for i in tqdm.tqdm(range(NUM_BATCHES), mininterval=10.0, desc="training"):
 
         inp = random.choice(train_dataset)[:PRIME_LENGTH]
         prime = decode_tokens(inp)
-        print(f"Prime: \n\n{prime}\n{'*' * 100}")
+        logging.info(f"Prime: \n\n{prime}\n{'*' * 100}")
 
         prompt = inp[None, ...]
         sampled, base_decode_elapsed = benchmark(base_decoding)(
@@ -154,12 +162,13 @@ for i in tqdm.tqdm(range(NUM_BATCHES), mininterval=10.0, desc="training"):
         base_decode_output = decode_tokens(sampled[0])
         spec_decode_output = decode_tokens(spec_decode_sampled[0])
 
-        print("\nBase Decoding:\n\n", base_decode_output, "\n")
-        print("\nSpeculative Decoding:\n\n", spec_decode_output, "\n")
-        print(f"Base Decoding Time: {base_decode_elapsed:.3f} ms\n")
-        print(f"Speculative Decoding Time: {spec_decode_elapsed:.3f} ms\n")
-        print(f"Average Number of Accepted Tokens: {num_accepted:.1f} / {GAMMA}\n")
+        logging.info("\nBase Decoding:\n\n" + base_decode_output + "\n")
+        logging.info("\nSpeculative Decoding:\n\n" + spec_decode_output + "\n")
+        logging.info(f"Base Decoding Time: {base_decode_elapsed:.3f} ms\n")
+        logging.info(f"Speculative Decoding Time: {spec_decode_elapsed:.3f} ms\n")
+        logging.info(f"Average Number of Accepted Tokens: {num_accepted:.1f} / {GAMMA}\n")
 
 # save the model's weights
+logging.info("Saving model weights")
 torch.save(llama_model.state_dict(), "weights/llama_model.pth")
 torch.save(prophet_model.state_dict(), "weights/prophet_model.pth")
