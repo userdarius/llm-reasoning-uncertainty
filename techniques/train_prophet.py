@@ -6,7 +6,7 @@ import numpy as np
 import time
 from functools import wraps, partial
 
-from transformers import AutoModelForCausalLM, AutoTokenizer, AdamW
+from transformers import AutoModelForCausalLM, AutoTokenizer, AdamW, pipeline
 from datasets import load_dataset
 
 from .speculative_decoding import (
