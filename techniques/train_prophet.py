@@ -72,16 +72,21 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load model and tokenizer from hf
 model_name = "meta-llama/Llama-3.2-3B"
-logging.info(f"Loading model and tokenizer from {model_name}")
+logging.info(f"Starting download of model and tokenizer from {model_name}")
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 llama_model = AutoModelForCausalLM.from_pretrained(model_name).to(device)
+logging.info(f"Completed download of model and tokenizer from {model_name}")
 
 model = llama_model
 
 # Prophet model is a smaller version of the main model
-prophet_model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-1B").to(device)
+prophet_model_name = "meta-llama/Llama-3.2-1B"
+logging.info(f"Starting download of prophet model from {prophet_model_name}")
+prophet_model = AutoModelForCausalLM.from_pretrained(prophet_model_name).to(device)
+logging.info(f"Completed download of prophet model from {prophet_model_name}")
 
 # Wrap the models for speculative decoding
+logging.info("Wrapping models for speculative decoding")
 model_and_prophet = ModelWithProphetWrapper(
     llama_model,
     prophet_model,
@@ -117,10 +122,12 @@ class HuggingFaceDataset(Dataset):
         return len(self.dataset)
 
 # Instantiate the dataset and dataloader
+logging.info("Instantiating dataset and dataloader")
 train_dataset = HuggingFaceDataset(train_dataset, tokenizer, SEQ_LEN)
 train_loader = cycle(DataLoader(train_dataset, batch_size=BATCH_SIZE))
 
 # optimizer
+logging.info("Setting up optimizer")
 params = model_and_prophet.parameters() if TRAIN_PROPHET else model.parameters()
 optim = AdamW(params, lr=LEARNING_RATE)
 
@@ -128,11 +135,14 @@ optim = AdamW(params, lr=LEARNING_RATE)
 logging.info("Starting training")
 for i in tqdm.tqdm(range(NUM_BATCHES), mininterval=10.0, desc="training"):
     model_and_prophet.train()
+    logging.info(f"Training batch {i}")
 
     for _ in range(GRAD_ACCUM_EVERY):
         data = next(train_loader)
+        logging.debug(f"Data batch shape: {data.shape}")
 
         total_loss, (loss, prophet_loss) = model_and_prophet(data)
+        logging.debug(f"Total loss: {total_loss.item()}, Loss: {loss.item()}, Prophet loss: {prophet_loss.item()}")
 
         (total_loss / GRAD_ACCUM_EVERY).backward()
 
@@ -145,6 +155,7 @@ for i in tqdm.tqdm(range(NUM_BATCHES), mininterval=10.0, desc="training"):
 
     # Generation and Evaluation
     if i % GENERATE_EVERY == 0:
+        logging.info(f"Evaluating model at batch {i}")
         model_and_prophet.eval()
 
         inp = random.choice(train_dataset)[:PRIME_LENGTH]
@@ -172,3 +183,4 @@ for i in tqdm.tqdm(range(NUM_BATCHES), mininterval=10.0, desc="training"):
 logging.info("Saving model weights")
 torch.save(llama_model.state_dict(), "weights/llama_model.pth")
 torch.save(prophet_model.state_dict(), "weights/prophet_model.pth")
+logging.info("Model weights saved successfully")
